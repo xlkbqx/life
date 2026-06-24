@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi OS · Daily</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1B1726;
+    --surface: #241F33;
+    --surface-2: #2C2640;
+    --line: rgba(244,239,230,0.12);
+    --text: #F4EFE6;
+    --text-muted: #B8AFC4;
+    --menstrual: #C1495B;
+    --folicular: #6FA37A;
+    --ovulatoria: #E3A857;
+    --lutea: #B97A4A;
+    --accent: var(--ovulatoria);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, #2B2440 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: 'Work Sans', sans-serif;
+    min-height: 100vh;
+    padding: 32px 18px 60px;
+  }
+  .wrap{max-width: 720px; margin: 0 auto;}
+
+  .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  h1{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 34px;
+    margin: 0 0 18px;
+    letter-spacing: -0.01em;
+  }
+  .nav{
+    display:flex;
+    gap: 6px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 28px;
+    overflow-x:auto;
+  }
+  .nav button{
+    background:none;
+    border:none;
+    color: var(--text-muted);
+    font-family:'Work Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .nav button.active{
+    color: var(--text);
+    border-bottom: 2px solid var(--accent);
+    font-weight: 500;
+  }
+  .nav button:disabled{
+    cursor: default;
+    opacity: 0.45;
+  }
+
+  /* ---- Setup card ---- */
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .card h2{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0 0 8px;
+  }
+  .card p.hint{
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0 0 20px;
+    line-height: 1.5;
+  }
+  label{
+    display:block;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .field{margin-bottom: 18px;}
+  input[type=date], input[type=number]{
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 11px 12px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Work Sans', sans-serif;
+  }
+  input:focus{outline: 2px solid var(--accent); outline-offset: 1px;}
+  .btn{
+    background: var(--accent);
+    color: #1B1726;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Work Sans', sans-serif;
+  }
+  .btn.ghost{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-weight: 500;
+  }
+  .row{display:flex; gap: 12px; flex-wrap: wrap; align-items:center;}
+
+  /* ---- Dial ---- */
+  .dial-section{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    text-align:center;
+    margin-bottom: 30px;
+  }
+  .dial-wrap{position:relative; width: 230px; height: 230px;}
+  .dial-center{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .moon-glyph{font-size: 30px; line-height:1;}
+  .day-number{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 28px;
+    margin-top: 4px;
+  }
+  .day-total{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .phase-name{
+    font-family:'Fraunces', serif;
+    font-size: 22px;
+    margin-top: 14px;
+  }
+  .phase-energy{
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 4px;
+    max-width: 380px;
+  }
+  .settings-link{
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    background:none;
+    border:none;
+    text-decoration: underline;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+
+  /* ---- Elements grid ---- */
+  .section-title{
+    font-family:'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  .section-sub{
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0 0 18px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 520px){ .grid{grid-template-columns: 1fr;} }
+
+  .el-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+  }
+  .el-head{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .glyph{width: 26px; height: 26px; flex-shrink:0;}
+  .el-name{
+    font-family:'Fraunces', serif;
+    font-size: 16px;
+  }
+  .el-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .el-activity{
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .check-row{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor:pointer;
+  }
+  .check-row input{accent-color: var(--accent);}
+  .el-card.done{ border-color: var(--el-color); }
+
+  textarea{
+    width:100%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13.5px;
+    resize: vertical;
+    min-height: 64px;
+    margin-top: 10px;
+  }
+  textarea:focus{outline: 2px solid var(--accent); outline-offset: 1px;}
+
+  .toast{
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    opacity:0;
+    transition: opacity 0.25s ease;
+    pointer-events:none;
+  }
+  .toast.show{opacity:1;}
+
+  .modal-overlay{
+    position: fixed; inset:0;
+    background: rgba(15,12,22,0.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding: 20px;
+    z-index: 10;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px;
+    max-width: 380px;
+    width: 100%;
+  }
+
+  .loading{ color: var(--text-muted); font-size: 14px; padding: 40px 0; text-align:center; }
+
+  /* ---- Rituales ---- */
+  .rit-block{ margin-bottom: 34px; }
+  .rit-head{
+    display:flex;
+    align-items:baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .rit-title{
+    font-family:'Fraunces', serif;
+    font-size: 20px;
+  }
+  .rit-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .rit-sub{ color: var(--text-muted); font-size: 13px; margin: 0 0 16px; }
+
+  .rit-group-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 18px 0 10px;
+  }
+  .rit-group-label:first-child{ margin-top: 0; }
+
+  .rit-item{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .rit-item.done{ border-color: var(--accent); }
+  .rit-item.muted{ opacity: 0.5; }
+  .rit-row{
+    display:flex;
+    align-items:flex-start;
+    gap: 12px;
+  }
+  .rit-row input[type=checkbox]{
+    margin-top: 2px;
+    accent-color: var(--accent);
+    width: 17px; height: 17px;
+    flex-shrink:0;
+  }
+  .rit-item-name{ font-size: 14.5px; font-weight: 500; }
+  .rit-item-desc{ font-size: 13px; color: var(--text-muted); margin-top: 3px; line-height: 1.45; }
+
+  .week-strip{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .week-day{
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 4px;
+    text-align:center;
+  }
+  .week-day.today{ border-color: var(--accent); }
+  .week-day .wd-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .week-day .wd-task{ font-size: 10.5px; margin-top: 4px; line-height: 1.3; min-height: 26px; }
+
+  .progress-bar{
+    background: var(--surface-2);
+    border-radius: 999px;
+    height: 8px;
+    overflow:hidden;
+    margin: 10px 0 8px;
+  }
+  .progress-fill{
+    height:100%;
+    background: var(--accent);
+    border-radius: 999px;
+  }
+  .quick-add{ display:flex; gap: 8px; flex-wrap:wrap; margin-top: 10px; }
+  .qbtn{
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+  .qbtn:hover{ border-color: var(--accent); }
+  .goal-edit{
+    font-size: 12px;
+    color: var(--text-muted);
+    background:none;
+    border:none;
+    text-decoration: underline;
+    cursor:pointer;
+    margin-left: 6px;
+    font-family:'Work Sans', sans-serif;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Mi OS personal</div>
+  <h1>Daily</h1>
+
+  <div class="nav">
+    <button class="active" id="tab-daily">Daily</button>
+    <button id="tab-rituales">Rituales</button>
+    <button id="tab-nutricion">Nutrición</button>
+    <button disabled title="Llega pronto">Hogar</button>
+    <button disabled title="Llega pronto">Disciplina</button>
+  </div>
+
+  <div id="app">
+    <div class="loading">Cargando tu ciclo…</div>
+  </div>
+
+</div>
+
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal">
+    <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:18px; margin:0 0 14px;">Ajustar tu ciclo</h2>
+    <div class="field">
+      <label for="editStart">Inicio de tu último periodo</label>
+      <input type="date" id="editStart">
+    </div>
+    <div class="field">
+      <label for="editLength">Duración promedio de tu ciclo (días)</label>
+      <input type="number" id="editLength" min="20" max="45">
+    </div>
+    <div class="row" style="justify-content: space-between;">
+      <button class="btn ghost" id="cancelSettings">Cancelar</button>
+      <button class="btn" id="saveSettings">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const app = document.getElementById('app');
+const toastEl = document.getElementById('toast');
+
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=> toastEl.classList.remove('show'), 2200);
+}
+
+function todayStr(){
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+
+// ---------- Content pools ----------
+const PHASES = {
+  menstrual: {
+    label: 'Menstrual',
+    sub: 'luna nueva · descanso e introspección',
+    glyph: '🌑',
+    color: 'var(--menstrual)',
+    energy: 'Energía baja. Tu cuerpo pide silencio y permiso para soltar. Hoy no se trata de producir, se trata de escuchar.',
+    pools: {
+      agua: [
+        '¿Qué necesito soltar antes de empezar un ciclo nuevo?',
+        'Escríbete una carta como si fueras tu propia guía espiritual.',
+        '¿Qué emoción visitó más esta semana y qué intentaba decirme?'
+      ],
+      aire: [
+        'Chandra Bhedana (respiración lunar) — Cómo: inhala solo por la fosa izquierda y exhala por la derecha, 5 minutos. Para qué: activa tu energía yin/lunar, ideal para fases de descanso e introspección.',
+        'Respiración diafragmática profunda — Cómo: inhala 4s expandiendo el abdomen, exhala 8s soltando todo el aire, 8 rondas. Para qué: activa el sistema parasimpático y alivia la tensión o el cólico.',
+        'Bhramari (respiración de abeja) — Cómo: inhala profundo y exhala emitiendo un zumbido suave con los labios cerrados, 6 rondas. Para qué: calma el sistema nervioso y los pensamientos rumiantes.'
+      ],
+      fuego: [
+        'Baile muy suave y libre, solo para tu cuerpo, sin coreografía.',
+        'Estiramientos lentos con música que te abrace.',
+        'Camina despacio al aire libre, sin meta ni ritmo.'
+      ],
+      tierra: [
+        'Un baño caliente con intención de descanso.',
+        'Organiza un solo cajón pequeño, nada más.',
+        'Té caliente y 10 minutos sin pantallas.'
+      ]
+    }
+  },
+  folicular: {
+    label: 'Folicular',
+    sub: 'luna creciente · renacer y creatividad',
+    glyph: '🌒',
+    color: 'var(--folicular)',
+    energy: 'Energía ascendente. Es buen momento para empezar cosas nuevas y dejar que la curiosidad lidere.',
+    pools: {
+      agua: [
+        '¿Qué quiero crear en este nuevo ciclo?',
+        'Haz una lluvia de ideas libre, sin filtro, de todo lo que te emociona.',
+        'Escribe sobre algo que llevas tiempo queriendo empezar.'
+      ],
+      aire: [
+        'Nadi Shodhana (respiración alterna) — Cómo: tapa la fosa derecha, inhala 4s por la izquierda, cambia y exhala 4s por la derecha; alterna 5 minutos. Para qué: equilibra ambos hemisferios y prepara la mente para crear con claridad.',
+        'Kapalabhati suave (respiración de fuego ligera) — Cómo: exhalaciones cortas y activas por la nariz, 20 repeticiones x 2 rondas. Para qué: despierta energía y enfoque mental sin sobre-estimularte.',
+        'Ujjayi (respiración del océano) — Cómo: inhala y exhala por la nariz contrayendo ligeramente la garganta, con un sonido suave de oleaje, 5 minutos. Para qué: sostiene una energía constante y enfocada durante el día.'
+      ],
+      fuego: [
+        'Clase de baile o coreografía nueva que quieras aprender.',
+        'Cardio moderado, algo que te haga sonreír.',
+        'Prueba un movimiento o disciplina que nunca has intentado.'
+      ],
+      tierra: [
+        'Organiza tu espacio o agenda para la semana que viene.',
+        'Fuerza moderada en el gym, sin presión por superarte hoy.',
+        'Planea una comida nutritiva nueva para probar.'
+      ]
+    }
+  },
+  ovulatoria: {
+    label: 'Ovulatoria',
+    sub: 'luna llena · brillo y expresión',
+    glyph: '🌕',
+    color: 'var(--ovulatoria)',
+    energy: 'Pico de energía. Es tu mejor momento para comunicar, socializar y brillar sin pedir permiso.',
+    pools: {
+      agua: [
+        'Journaling de gratitud: tres cosas que celebras de ti hoy.',
+        '¿Qué quiero decir en voz alta que no he dicho?',
+        'Escribe sobre un momento reciente donde brillaste.'
+      ],
+      aire: [
+        'Box breathing / Sama Vritti — Cómo: inhala 4s, sostén 4s, exhala 4s, sostén 4s; repite 6 rondas. Para qué: te da seguridad y presencia antes de hablar, brillar o socializar.',
+        'Dirgha (respiración completa) — Cómo: inhala llenando abdomen, costillas y pecho; exhala en el orden inverso, 5 minutos. Para qué: maximiza tu energía disponible y la sensación de plenitud.',
+        'Surya Bhedana (respiración solar) — Cómo: inhala solo por la fosa derecha y exhala por la izquierda, 5 minutos. Para qué: activa tu energía yang/solar, perfecta para tu pico de extroversión.'
+      ],
+      fuego: [
+        'Clase de baile completa, dale todo tu cuerpo hoy.',
+        'Entrenamiento de alta intensidad, este es tu pico de fuerza.',
+        'Actividad física social: clase grupal, salir a moverte con otros.'
+      ],
+      tierra: [
+        'Agenda esa conversación o reunión importante para hoy.',
+        'Fuerza máxima en el gym, tu cuerpo te lo permite.',
+        'Socializa con intención, hoy tu energía conecta fácil.'
+      ]
+    }
+  },
+  lutea: {
+    label: 'Lútea',
+    sub: 'luna menguante · organizar y cerrar',
+    glyph: '🌖',
+    color: 'var(--lutea)',
+    energy: 'Energía descendente. Momento de atención al detalle, de cerrar ciclos antes de que empiece el descanso.',
+    pools: {
+      agua: [
+        '¿Qué funcionó en este ciclo y qué quiero soltar del siguiente?',
+        'Shadow work suave: ¿qué inseguridad apareció y qué me quiso enseñar?',
+        'Escribe una lista de cierre: pendientes, gratitudes, aprendizajes.'
+      ],
+      aire: [
+        'Nadi Shodhana (respiración alterna) — Cómo: inhala 4s por una fosa, exhala 4s por la otra, alternando 5 minutos. Para qué: equilibra el sistema nervioso mientras tu energía empieza a bajar.',
+        'Respiración con exhalación extendida — Cómo: inhala 4s, exhala 6-8s, 8 rondas. Para qué: activa el sistema parasimpático y ayuda a soltar la tensión premenstrual.',
+        'Bhramari (respiración de abeja) — Cómo: inhala profundo y exhala zumbando suavemente, 6 rondas. Para qué: calma la irritabilidad y ayuda a procesar emociones antes de cerrar el ciclo.'
+      ],
+      fuego: [
+        'Movimiento moderado, baja la intensidad poco a poco.',
+        'Baile suave en casa, sin exigirte coreografía.',
+        'Actividad física tranquila: yoga, pilates o caminar.'
+      ],
+      tierra: [
+        'Organiza el hogar: un espacio que necesite orden.',
+        'Cierra tareas pendientes antes de que termine el ciclo.',
+        'Rutina de cuidado personal, date ese tiempo.'
+      ]
+    }
+  }
+};
+
+const ELEMENTS = [
+  {key:'agua', name:'Agua', sub:'journaling', glyph: triGlyph('down')},
+  {key:'aire', name:'Aire', sub:'breathwork · pranayama', glyph: triGlyph('up-bar')},
+  {key:'fuego', name:'Fuego', sub:'baile / actividad física', glyph: triGlyph('up')},
+  {key:'tierra', name:'Tierra', sub:'ejercicio / otros', glyph: triGlyph('down-bar')}
+];
+
+function triGlyph(kind){
+  // minimal alchemical-style glyphs as inline SVG strings
+  if(kind==='up') return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,4 23,21 3,21" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  if(kind==='down') return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,22 3,5 23,5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  if(kind==='up-bar') return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,4 23,21 3,21" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="7" y1="15" x2="19" y2="15" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,22 3,5 23,5" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="7" y1="11" x2="19" y2="11" stroke="currentColor" stroke-width="1.6"/></svg>`;
+}
+
+function phaseForDay(dayInCycle, cycleLength){
+  const frac = dayInCycle / cycleLength;
+  if(frac <= 0.18) return 'menstrual';
+  if(frac <= 0.46) return 'folicular';
+  if(frac <= 0.57) return 'ovulatoria';
+  return 'lutea';
+}
+
+function diffInDays(a,b){
+  const ms = b.setHours(0,0,0,0) - a.setHours(0,0,0,0);
+  return Math.floor(ms / 86400000);
+}
+
+function getCycleInfo(config){
+  const start = new Date(config.lastPeriodStart + 'T00:00:00');
+  const today = new Date();
+  let elapsed = diffInDays(new Date(start), new Date(today));
+  if(elapsed < 0) elapsed = 0;
+  const dayInCycle = (elapsed % config.cycleLength) + 1;
+  const phaseKey = phaseForDay(dayInCycle, config.cycleLength);
+  return { dayInCycle, cycleLength: config.cycleLength, phaseKey, fraction: dayInCycle / config.cycleLength };
+}
+
+// ---------- Storage helpers ----------
+async function loadConfig(){
+  try{
+    const r = await window.storage.get('cycle-config');
+    return r ? JSON.parse(r.value) : null;
+  }catch(e){ return null; }
+}
+async function saveConfig(cfg){
+  try{ await window.storage.set('cycle-config', JSON.stringify(cfg)); }
+  catch(e){ showToast('No se pudo guardar. Intenta de nuevo.'); }
+}
+async function loadDay(dateKey){
+  try{
+    const r = await window.storage.get('day:' + dateKey);
+    return r ? JSON.parse(r.value) : {checks:{}, journal:''};
+  }catch(e){ return {checks:{}, journal:''}; }
+}
+async function saveDay(dateKey, data){
+  try{ await window.storage.set('day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar tu progreso de hoy.'); }
+}
+
+// ---------- Rituales: data ----------
+const HAIR_SCHEDULE = {
+  0: { label: 'Día libre', desc: 'Sin tarea fija de cabello hoy.' },
+  1: { label: 'Pre-shampoo', desc: 'Antes de natación: aplica tu pre-shampoo protector.' },
+  2: { label: 'Cepillado', desc: 'Cepilla bien el cabello en la mañana.' },
+  3: { label: 'Cuidado normal', desc: 'Rutina habitual, sin lavado.' },
+  4: { label: 'Lavado', desc: 'Día de lavado de cabello.' },
+  5: { label: 'Cuidado normal', desc: 'Rutina habitual, sin lavado.' },
+  6: { label: 'Lavado', desc: 'Día de lavado de cabello.' }
+};
+const WEEKDAY_SHORT = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+function getWeekKey(date){
+  const d = new Date(date);
+  const dow = (d.getDay() + 6) % 7; // 0 = lunes
+  d.setDate(d.getDate() - dow);
+  return d.toISOString().slice(0,10);
+}
+function nextMonday(date){
+  const d = new Date(date);
+  const dow = d.getDay();
+  const add = dow === 1 ? 7 : ((8 - dow) % 7 || 7);
+  d.setDate(d.getDate() + add);
+  return d;
+}
+function fmtShort(d){
+  return d.toLocaleDateString('es-CO', {day:'numeric', month:'short'});
+}
+
+async function loadRitualDay(dateKey){
+  try{
+    const r = await window.storage.get('ritual-day:' + dateKey);
+    return r ? JSON.parse(r.value) : {};
+  }catch(e){ return {}; }
+}
+async function saveRitualDay(dateKey, data){
+  try{ await window.storage.set('ritual-day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+async function loadRitualWeek(weekKey){
+  try{
+    const r = await window.storage.get('ritual-week:' + weekKey);
+    return r ? JSON.parse(r.value) : { nails:false, readingMinutes:0, meditationCount:0 };
+  }catch(e){ return { nails:false, readingMinutes:0, meditationCount:0 }; }
+}
+async function saveRitualWeek(weekKey, data){
+  try{ await window.storage.set('ritual-week:' + weekKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar tu semana.'); }
+}
+async function loadRitualConfig(){
+  try{
+    const r = await window.storage.get('ritual-config');
+    return r ? JSON.parse(r.value) : { readingGoalHours: 3, laserLastDate: null };
+  }catch(e){ return { readingGoalHours: 3, laserLastDate: null }; }
+}
+async function saveRitualConfig(cfg){
+  try{ await window.storage.set('ritual-config', JSON.stringify(cfg)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+
+// ---------- Rendering ----------
+function renderSetup(){
+  app.innerHTML = `
+    <div class="card">
+      <h2>Sincronicemos tu Daily con tu ciclo</h2>
+      <p class="hint">Cuéntame cuándo empezó tu último periodo y qué tan largo es tu ciclo en promedio. Con eso calculo en qué fase estás hoy y equilibro tus 4 elementos según tu energía disponible.</p>
+      <div class="field">
+        <label for="startInput">Inicio de tu último periodo</label>
+        <input type="date" id="startInput" value="${todayStr()}">
+      </div>
+      <div class="field">
+        <label for="lengthInput">Duración promedio de tu ciclo (días)</label>
+        <input type="number" id="lengthInput" min="20" max="45" value="28">
+      </div>
+      <button class="btn" id="setupBtn">Calcular mi día</button>
+    </div>
+  `;
+  document.getElementById('setupBtn').onclick = async ()=>{
+    const start = document.getElementById('startInput').value;
+    const length = parseInt(document.getElementById('lengthInput').value || '28', 10);
+    if(!start){ showToast('Necesito una fecha de inicio.'); return; }
+    await saveConfig({lastPeriodStart: start, cycleLength: length});
+    renderDashboard();
+  };
+}
+
+async function renderDashboard(){
+  const config = await loadConfig();
+  if(!config){ renderSetup(); return; }
+
+  const info = getCycleInfo(config);
+  const phase = PHASES[info.phaseKey];
+  const dateKey = todayStr();
+  const dayData = await loadDay(dateKey);
+
+  const angle = info.fraction * 360 - 90;
+  const r = 95;
+  const cx = 115, cy = 115;
+  const mx = cx + r * Math.cos(angle * Math.PI/180);
+  const my = cy + r * Math.sin(angle * Math.PI/180);
+
+  const arcs = arcSegments(cx, cy, r);
+
+  app.innerHTML = `
+    <div class="dial-section">
+      <div class="dial-wrap">
+        <svg viewBox="0 0 230 230" width="230" height="230">
+          ${arcs}
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--line)" stroke-width="1"/>
+          <circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="6" fill="${phase.color}" stroke="var(--bg)" stroke-width="2"/>
+        </svg>
+        <div class="dial-center">
+          <div class="moon-glyph">${phase.glyph}</div>
+          <div class="day-number" style="color:${phase.color}">${info.dayInCycle}</div>
+          <div class="day-total">de ${info.cycleLength} días</div>
+        </div>
+      </div>
+      <div class="phase-name">Fase ${phase.label}</div>
+      <div class="phase-energy">${phase.energy}</div>
+      <button class="settings-link" id="openSettings">Ajustar fecha de mi periodo</button>
+    </div>
+
+    <div class="section-title">Hoy equilibras tus 4 elementos</div>
+    <div class="section-sub">${phase.sub}</div>
+    <div class="grid" id="elGrid"></div>
+  `;
+
+  const grid = document.getElementById('elGrid');
+  ELEMENTS.forEach(el=>{
+    const pool = phase.pools[el.key];
+    const activity = pool[info.dayInCycle % pool.length];
+    const checked = !!dayData.checks[el.key];
+    const card = document.createElement('div');
+    card.className = 'el-card' + (checked ? ' done' : '');
+    card.style.setProperty('--el-color', phase.color);
+    card.innerHTML = `
+      <div class="el-head" style="color:${phase.color}">
+        ${el.glyph}
+        <div>
+          <div class="el-name" style="color:var(--text)">${el.name}</div>
+          <div class="el-sub">${el.sub}</div>
+        </div>
+      </div>
+      <div class="el-activity">${activity}</div>
+      <label class="check-row">
+        <input type="checkbox" ${checked ? 'checked' : ''} data-el="${el.key}">
+        Hecho hoy
+      </label>
+      ${el.key === 'agua' ? `<textarea placeholder="Escribe aquí tu journaling de hoy…">${escapeHtml(dayData.journal || '')}</textarea>` : ''}
+    `;
+    grid.appendChild(card);
+
+    const checkbox = card.querySelector('input[type=checkbox]');
+    checkbox.onchange = async ()=>{
+      dayData.checks[el.key] = checkbox.checked;
+      card.classList.toggle('done', checkbox.checked);
+      await saveDay(dateKey, dayData);
+    };
+
+    if(el.key === 'agua'){
+      const ta = card.querySelector('textarea');
+      let debounce;
+      ta.oninput = ()=>{
+        clearTimeout(debounce);
+        debounce = setTimeout(async ()=>{
+          dayData.journal = ta.value;
+          await saveDay(dateKey, dayData);
+        }, 600);
+      };
+    }
+  });
+
+  document.getElementById('openSettings').onclick = ()=> openSettingsModal(config);
+}
+
+function arcSegments(cx, cy, r){
+  // four quadrant arcs colored by phase, starting at top, clockwise
+  const bounds = [0, 0.18, 0.46, 0.57, 1];
+  const keys = ['menstrual','folicular','ovulatoria','lutea'];
+  let svg = '';
+  for(let i=0;i<4;i++){
+    const a0 = bounds[i]*360 - 90;
+    const a1 = bounds[i+1]*360 - 90;
+    svg += describeArc(cx, cy, r, a0, a1, PHASES[keys[i]].color);
+  }
+  return svg;
+}
+function describeArc(cx, cy, r, a0, a1, color){
+  const start = polarToCartesian(cx, cy, r, a1);
+  const end = polarToCartesian(cx, cy, r, a0);
+  const largeArc = (a1 - a0) <= 180 ? 0 : 1;
+  return `<path d="M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}" fill="none" stroke="${color}" stroke-width="7" stroke-linecap="round" opacity="0.85"/>`;
+}
+function polarToCartesian(cx, cy, r, angleDeg){
+  const a = angleDeg * Math.PI / 180;
+  return { x: (cx + r*Math.cos(a)).toFixed(1), y: (cy + r*Math.sin(a)).toFixed(1) };
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function openSettingsModal(config){
+  const overlay = document.getElementById('settingsOverlay');
+  document.getElementById('editStart').value = config.lastPeriodStart;
+  document.getElementById('editLength').value = config.cycleLength;
+  overlay.classList.add('show');
+
+  document.getElementById('cancelSettings').onclick = ()=> overlay.classList.remove('show');
+  document.getElementById('saveSettings').onclick = async ()=>{
+    const start = document.getElementById('editStart').value;
+    const length = parseInt(document.getElementById('editLength').value || '28', 10);
+    if(!start){ showToast('Necesito una fecha.'); return; }
+    await saveConfig({lastPeriodStart: start, cycleLength: length});
+    overlay.classList.remove('show');
+    showToast('Ciclo actualizado.');
+    renderDashboard();
+  };
+}
+
+// ---------- Rituales: render ----------
+async function renderRituales(){
+  const today = new Date();
+  const dateKey = todayStr();
+  const weekKey = getWeekKey(today);
+  const isMonday = today.getDay() === 1;
+
+  const dayData = await loadRitualDay(dateKey);
+  const weekData = await loadRitualWeek(weekKey);
+  const config = await loadRitualConfig();
+
+  const hairToday = HAIR_SCHEDULE[today.getDay()];
+  const laserDue = !config.laserLastDate || diffInDays(new Date(config.laserLastDate + 'T00:00:00'), new Date(today)) >= 4;
+  const laserNextInfo = config.laserLastDate
+    ? (laserDue ? 'Te toca hoy.' : `Próxima sesión en ${4 - diffInDays(new Date(config.laserLastDate + 'T00:00:00'), new Date(today))} día(s).`)
+    : 'Aún no registras tu primera sesión.';
+
+  app.innerHTML = `
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Body</span><span class="rit-tag">cuerpo</span></div>
+      <p class="rit-sub">Skincare, hair care y cuidado físico diario.</p>
+
+      <div class="rit-group-label">Hoy</div>
+      <div id="bodyDaily"></div>
+
+      <div class="rit-group-label">Hair care · esta semana</div>
+      <div class="rit-item">
+        <div class="rit-item-name">${hairToday.label}</div>
+        <div class="rit-item-desc">${hairToday.desc}</div>
+        <div class="week-strip" id="hairStrip"></div>
+      </div>
+
+      <div class="rit-group-label">Movimiento · esta semana</div>
+      <div class="rit-item" id="movToday"></div>
+      <div class="week-strip" id="movStrip"></div>
+
+      <div class="rit-group-label">Semanal</div>
+      <div id="bodyWeekly"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Mind</span><span class="rit-tag">mente</span></div>
+      <p class="rit-sub">Aprendizaje diario y lectura semanal.</p>
+
+      <div class="rit-group-label">Hoy</div>
+      <div id="mindDaily"></div>
+
+      <div class="rit-group-label">Semanal</div>
+      <div class="rit-item" id="readingItem"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Soul</span><span class="rit-tag">alma</span></div>
+      <p class="rit-sub">El resto de tu práctica espiritual vive en Daily — aquí solo tu meditación semanal.</p>
+
+      <div class="rit-group-label">Semanal</div>
+      <div class="rit-item" id="meditationItem"></div>
+    </div>
+  `;
+
+  // ---- Body daily ----
+  const bodyDaily = document.getElementById('bodyDaily');
+  const bodyItems = [
+    {key:'skincareAM', name:'Skincare AM', desc:'Limpiador suave + hidratante + protector solar.'},
+    {key:'skincarePM', name:'Skincare PM', desc:'Limpiador suave + tratamiento + hidratante reparadora.'},
+    {key:'sunscreen', name:'Protector solar', desc:'Esencial mientras tomas isotretinoína: reaplica si sales varias horas.'},
+    {key:'hair', name:`Hair care de hoy: ${hairToday.label}`, desc:hairToday.desc}
+  ];
+  bodyItems.forEach(item => bodyDaily.appendChild(buildDailyItem(item, dayData, dateKey)));
+
+  // Isotretinoína — solo lunes
+  const isoItem = document.createElement('div');
+  isoItem.className = 'rit-item' + (isMonday ? '' : ' muted') + (dayData.isotretinoina ? ' done' : '');
+  isoItem.innerHTML = isMonday
+    ? `<label class="rit-row">
+         <input type="checkbox" id="iso-check" ${dayData.isotretinoina ? 'checked' : ''}>
+         <div><div class="rit-item-name">Isotretinoína</div><div class="rit-item-desc">Hoy es lunes: toma tu dosis.</div></div>
+       </label>`
+    : `<div class="rit-row"><div><div class="rit-item-name">Isotretinoína</div><div class="rit-item-desc">Toca cada lunes. Próxima toma: ${fmtShort(nextMonday(today))}.</div></div></div>`;
+  bodyDaily.appendChild(isoItem);
+  if(isMonday){
+    document.getElementById('iso-check').onchange = async (e)=>{
+      dayData.isotretinoina = e.target.checked;
+      isoItem.classList.toggle('done', e.target.checked);
+      await saveRitualDay(dateKey, dayData);
+    };
+  }
+
+  // hair week strip
+  const hairStrip = document.getElementById('hairStrip');
+  for(let i=0;i<7;i++){
+    const d = new Date(); d.setDate(d.getDate() - ((d.getDay()+6)%7) + i);
+    const isToday = d.toDateString() === today.toDateString();
+    const sched = HAIR_SCHEDULE[d.getDay()];
+    const cell = document.createElement('div');
+    cell.className = 'week-day' + (isToday ? ' today' : '');
+    cell.innerHTML = `<div class="wd-label">${WEEKDAY_SHORT[d.getDay()]}</div><div class="wd-task">${sched.label}</div>`;
+    hairStrip.appendChild(cell);
+  }
+
+  // ---- Body weekly ----
+  const bodyWeekly = document.getElementById('bodyWeekly');
+
+  const nailsItem = document.createElement('div');
+  nailsItem.className = 'rit-item' + (weekData.nails ? ' done' : '');
+  nailsItem.innerHTML = `<label class="rit-row">
+      <input type="checkbox" id="nails-check" ${weekData.nails ? 'checked' : ''}>
+      <div><div class="rit-item-name">Uñas</div><div class="rit-item-desc">Una vez por semana.</div></div>
+    </label>`;
+  bodyWeekly.appendChild(nailsItem);
+  document.getElementById('nails-check').onchange = async (e)=>{
+    weekData.nails = e.target.checked;
+    nailsItem.classList.toggle('done', e.target.checked);
+    await saveRitualWeek(weekKey, weekData);
+  };
+
+  const laserItem = document.createElement('div');
+  laserItem.className = 'rit-item' + (!laserDue ? ' done' : '');
+  laserItem.innerHTML = `
+    <div class="rit-item-name">Láser</div>
+    <div class="rit-item-desc">Cada 4 días, aprox. dos veces por semana. ${laserNextInfo}</div>
+    <div class="quick-add">
+      <button class="qbtn" id="laser-done">Hecho hoy</button>
+    </div>`;
+  bodyWeekly.appendChild(laserItem);
+  document.getElementById('laser-done').onclick = async ()=>{
+    config.laserLastDate = dateKey;
+    await saveRitualConfig(config);
+    showToast('Sesión de láser registrada.');
+    renderRituales();
+  };
+
+  // ---- Mind daily ----
+  const mindDaily = document.getElementById('mindDaily');
+  mindDaily.appendChild(buildDailyItem({key:'learning', name:'Aprendizaje (mín. 1 hora)', desc:'Dedica al menos 60 minutos a aprender algo nuevo hoy.'}, dayData, dateKey));
+
+  // ---- Reading (weekly, time-based) ----
+  const goalMinutes = config.readingGoalHours * 60;
+  const pct = Math.min(100, Math.round((weekData.readingMinutes / goalMinutes) * 100));
+  const readingItem = document.getElementById('readingItem');
+  readingItem.innerHTML = `
+    <div class="rit-item-name">Lectura
+      <button class="goal-edit" id="editGoal">cambiar meta</button>
+    </div>
+    <div class="rit-item-desc">Meta: ${config.readingGoalHours}h esta semana</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="rit-item-desc">${(weekData.readingMinutes/60).toFixed(1)}h de ${config.readingGoalHours}h</div>
+    <div class="quick-add">
+      <button class="qbtn" data-min="15">+15 min</button>
+      <button class="qbtn" data-min="30">+30 min</button>
+      <button class="qbtn" data-min="60">+60 min</button>
+    </div>
+  `;
+  readingItem.querySelectorAll('.qbtn').forEach(btn=>{
+    btn.onclick = async ()=>{
+      weekData.readingMinutes += parseInt(btn.dataset.min, 10);
+      await saveRitualWeek(weekKey, weekData);
+      renderRituales();
+    };
+  });
+  document.getElementById('editGoal').onclick = async ()=>{
+    const val = prompt('¿Cuántas horas a la semana quieres leer?', config.readingGoalHours);
+    if(val && !isNaN(parseFloat(val))){
+      config.readingGoalHours = parseFloat(val);
+      await saveRitualConfig(config);
+      renderRituales();
+    }
+  };
+
+  // ---- Meditation (weekly, 2x target) ----
+  const meditationItem = document.getElementById('meditationItem');
+  meditationItem.innerHTML = `
+    <div class="rit-item-name">Meditación</div>
+    <div class="rit-item-desc">${weekData.meditationCount} de 2 sesiones esta semana</div>
+    <div class="quick-add">
+      <button class="qbtn" id="med-add">+1 sesión</button>
+      ${weekData.meditationCount > 0 ? '<button class="qbtn" id="med-remove">-1</button>' : ''}
+    </div>
+  `;
+  document.getElementById('med-add').onclick = async ()=>{
+    weekData.meditationCount += 1;
+    await saveRitualWeek(weekKey, weekData);
+    renderRituales();
+  };
+  const medRemove = document.getElementById('med-remove');
+  if(medRemove) medRemove.onclick = async ()=>{
+    weekData.meditationCount = Math.max(0, weekData.meditationCount - 1);
+    await saveRitualWeek(weekKey, weekData);
+    renderRituales();
+  };
+}
+
+function buildDailyItem(item, dayData, dateKey){
+  const checked = !!dayData[item.key];
+  const el = document.createElement('div');
+  el.className = 'rit-item' + (checked ? ' done' : '');
+  el.innerHTML = `<label class="rit-row">
+      <input type="checkbox" ${checked ? 'checked' : ''}>
+      <div><div class="rit-item-name">${item.name}</div><div class="rit-item-desc">${item.desc}</div></div>
+    </label>`;
+  el.querySelector('input').onchange = async (e)=>{
+    dayData[item.key] = e.target.checked;
+    el.classList.toggle('done', e.target.checked);
+    await saveRitualDay(dateKey, dayData);
+  };
+  return el;
+}
+
+// ---------- Tabs ----------
+function setActiveTab(id){
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(id);
+  if(btn) btn.classList.add('active');
+}
+
+document.getElementById('tab-daily').onclick = ()=>{ setActiveTab('tab-daily'); renderDashboard(); };
+document.getElementById('tab-rituales').onclick = ()=>{ setActiveTab('tab-rituales'); renderRituales(); };
+
+renderDashboard();
+
+</script>
+</body>
+</html>
