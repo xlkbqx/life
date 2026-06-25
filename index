@@ -1,0 +1,2544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loren's life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1B1726;
+    --surface: #241F33;
+    --surface-2: #2C2640;
+    --line: rgba(244,239,230,0.12);
+    --text: #F4EFE6;
+    --text-muted: #B8AFC4;
+    --menstrual: #C1495B;
+    --folicular: #6FA37A;
+    --ovulatoria: #E3A857;
+    --lutea: #B97A4A;
+    --accent: var(--ovulatoria);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, #2B2440 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: 'Work Sans', sans-serif;
+    min-height: 100vh;
+    padding: 32px 18px 60px;
+  }
+  .wrap{max-width: 720px; margin: 0 auto;}
+
+  .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  h1{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 34px;
+    margin: 0 0 18px;
+    letter-spacing: -0.01em;
+  }
+  .nav{
+    display:flex;
+    gap: 6px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 28px;
+    overflow-x:auto;
+  }
+  .nav button{
+    background:none;
+    border:none;
+    color: var(--text-muted);
+    font-family:'Work Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .nav button.active{
+    color: var(--text);
+    border-bottom: 2px solid var(--accent);
+    font-weight: 500;
+  }
+  .nav button:disabled{
+    cursor: default;
+    opacity: 0.45;
+  }
+
+  /* ---- Setup card ---- */
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .card h2{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0 0 8px;
+  }
+  .card p.hint{
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0 0 20px;
+    line-height: 1.5;
+  }
+  label{
+    display:block;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .field{margin-bottom: 18px;}
+  input[type=date], input[type=number]{
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 11px 12px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Work Sans', sans-serif;
+  }
+  input:focus{outline: 2px solid var(--accent); outline-offset: 1px;}
+  .btn{
+    background: var(--accent);
+    color: #1B1726;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Work Sans', sans-serif;
+  }
+  .btn.ghost{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-weight: 500;
+  }
+  .row{display:flex; gap: 12px; flex-wrap: wrap; align-items:center;}
+
+  /* ---- Dial ---- */
+  .intention-card{
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+  }
+
+  .dial-section{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    text-align:center;
+    margin-bottom: 30px;
+  }
+  .dial-wrap{position:relative; width: 230px; height: 230px;}
+  .dial-center{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .moon-glyph{font-size: 30px; line-height:1;}
+  .day-number{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 28px;
+    margin-top: 4px;
+  }
+  .day-total{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .phase-name{
+    font-family:'Fraunces', serif;
+    font-size: 22px;
+    margin-top: 14px;
+  }
+  .phase-energy{
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 4px;
+    max-width: 380px;
+  }
+  .settings-link{
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    background:none;
+    border:none;
+    text-decoration: underline;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+
+  /* ---- Elements grid ---- */
+  .section-title{
+    font-family:'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  .section-sub{
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0 0 18px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 520px){ .grid{grid-template-columns: 1fr;} }
+
+  .el-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+  }
+  .el-head{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .glyph{width: 26px; height: 26px; flex-shrink:0;}
+  .el-name{
+    font-family:'Fraunces', serif;
+    font-size: 16px;
+  }
+  .el-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .el-activity{
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .check-row{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor:pointer;
+  }
+  .check-row input{accent-color: var(--accent);}
+  .el-card.done{ border-color: var(--el-color); }
+
+  textarea{
+    width:100%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13.5px;
+    resize: vertical;
+    min-height: 64px;
+    margin-top: 10px;
+  }
+  textarea:focus{outline: 2px solid var(--accent); outline-offset: 1px;}
+
+  .toast{
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    opacity:0;
+    transition: opacity 0.25s ease;
+    pointer-events:none;
+  }
+  .toast.show{opacity:1;}
+
+  .modal-overlay{
+    position: fixed; inset:0;
+    background: rgba(15,12,22,0.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding: 20px;
+    z-index: 10;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px;
+    max-width: 380px;
+    width: 100%;
+  }
+
+  .loading{ color: var(--text-muted); font-size: 14px; padding: 40px 0; text-align:center; }
+
+  /* ---- Rituales ---- */
+  .rit-block{ margin-bottom: 34px; }
+  .rit-head{
+    display:flex;
+    align-items:baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .rit-title{
+    font-family:'Fraunces', serif;
+    font-size: 20px;
+  }
+  .rit-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .rit-sub{ color: var(--text-muted); font-size: 13px; margin: 0 0 16px; }
+
+  .rit-group-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 18px 0 10px;
+  }
+  .rit-group-label:first-child{ margin-top: 0; }
+
+  .rit-item{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .rit-item.done{ border-color: var(--accent); }
+  .rit-item.muted{ opacity: 0.5; }
+  .rit-row{
+    display:flex;
+    align-items:flex-start;
+    gap: 12px;
+  }
+  .rit-row input[type=checkbox]{
+    margin-top: 2px;
+    accent-color: var(--accent);
+    width: 17px; height: 17px;
+    flex-shrink:0;
+  }
+  .rit-item-name{ font-size: 14.5px; font-weight: 500; }
+  .rit-item-desc{ font-size: 13px; color: var(--text-muted); margin-top: 3px; line-height: 1.45; }
+
+  .week-strip{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .week-day{
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 4px;
+    text-align:center;
+  }
+  .week-day.today{ border-color: var(--accent); }
+  .week-day .wd-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .week-day .wd-task{ font-size: 10.5px; margin-top: 4px; line-height: 1.3; min-height: 26px; }
+
+  .progress-bar{
+    background: var(--surface-2);
+    border-radius: 999px;
+    height: 8px;
+    overflow:hidden;
+    margin: 10px 0 8px;
+  }
+  .progress-fill{
+    height:100%;
+    background: var(--accent);
+    border-radius: 999px;
+  }
+  .quick-add{ display:flex; gap: 8px; flex-wrap:wrap; margin-top: 10px; }
+  .qbtn{
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+  .qbtn:hover{ border-color: var(--accent); }
+  .goal-edit{
+    font-size: 12px;
+    color: var(--text-muted);
+    background:none;
+    border:none;
+    text-decoration: underline;
+    cursor:pointer;
+    margin-left: 6px;
+    font-family:'Work Sans', sans-serif;
+  }
+
+  /* ---- Nutrición ---- */
+  .menu-toggle{
+    display:flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .menu-toggle button{
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text-muted);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+  .menu-toggle button.active{
+    color: var(--text);
+    border-color: var(--accent);
+  }
+  .meal-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+  .meal-name{
+    font-family:'Fraunces', serif;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  .meal-row{
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin-bottom: 2px;
+  }
+  .meal-row b{ color: var(--text-muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; margin-right: 6px;}
+  .prep-box{
+    background: var(--surface-2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .prep-box b{ color: var(--text); }
+
+  .supp-row, .water-row{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display:flex;
+    align-items:center;
+    gap: 12px;
+  }
+  .supp-row.done{ border-color: var(--accent); }
+  .supp-row input{ width: 17px; height: 17px; accent-color: var(--accent); flex-shrink:0; }
+  .water-track{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .water-glass{
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+  }
+  .water-glass.filled{ background: var(--accent); border-color: var(--accent); }
+
+  .grocery-section{ margin-bottom: 22px; }
+  .grocery-list{ list-style:none; padding:0; margin: 0; }
+  .grocery-list li{
+    display:flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13.5px;
+  }
+  .grocery-list li .gname{ flex:1; }
+  .grocery-list li .gprice{ color: var(--text-muted); font-family:'JetBrains Mono', monospace; font-size: 12px; white-space:nowrap; }
+  .grocery-total{
+    margin-top: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .assumption{
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* ---- Ejercicio ---- */
+  .phase-alert{
+    background: var(--surface-2);
+    border: 1px solid var(--menstrual);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .phase-alert b{ color: var(--menstrual); }
+  .today-exercise{
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 22px;
+  }
+  .today-exercise .ex-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .today-exercise .ex-title{
+    font-family:'Fraunces', serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .ex-list{ margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.7; }
+  .week-ex-row{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13.5px;
+  }
+  .week-ex-row.today-row{ color: var(--accent); font-weight: 500; }
+  .week-ex-row .wd{ width: 70px; color: var(--text-muted); font-family:'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; }
+
+  /* ---- Hogar ---- */
+  .plant-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .plant-name{ font-family:'Fraunces', serif; font-size: 15px; margin-bottom: 4px; }
+  .plant-water{ font-family:'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .plant-desc{ font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ---- Learning ---- */
+  .chunk-chip{
+    display:inline-block;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    margin: 3px 4px 0 0;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .stage-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .stage-title{ font-family:'Fraunces', serif; font-size: 15px; color: var(--accent); margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Loren's life</h1>
+
+  <div class="nav">
+    <button class="active" id="tab-daily">Daily</button>
+    <button id="tab-rituales">Rituales</button>
+    <button id="tab-nutricion">Nutrición</button>
+    <button id="tab-ejercicio">Ejercicio</button>
+    <button id="tab-hogar">Hogar</button>
+    <button id="tab-learning">Learning</button>
+  </div>
+
+  <div id="app">
+    <div class="loading">Cargando tu ciclo…</div>
+  </div>
+
+</div>
+
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal">
+    <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:18px; margin:0 0 14px;">Ajustar tu ciclo</h2>
+    <div class="field">
+      <label for="editStart">Inicio de tu último periodo</label>
+      <input type="date" id="editStart">
+    </div>
+    <div class="field">
+      <label for="editLength">Duración promedio de tu ciclo (días)</label>
+      <input type="number" id="editLength" min="20" max="45">
+    </div>
+    <div class="row" style="justify-content: space-between;">
+      <button class="btn ghost" id="cancelSettings">Cancelar</button>
+      <button class="btn" id="saveSettings">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const app = document.getElementById('app');
+const toastEl = document.getElementById('toast');
+
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=> toastEl.classList.remove('show'), 2200);
+}
+
+function todayStr(){
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+
+// ---------- Content pools ----------
+const PHASES = {
+  menstrual: {
+    label: 'Menstrual',
+    sub: 'luna nueva · descanso e introspección',
+    glyph: '🌑',
+    color: 'var(--menstrual)',
+    energy: 'Energía baja. Tu cuerpo pide silencio y permiso para soltar. Hoy no se trata de producir, se trata de escuchar.',
+    pools: {
+      agua: [
+        '¿Qué necesito soltar antes de empezar un ciclo nuevo?',
+        'Escríbete una carta como si fueras tu propia guía espiritual.',
+        '¿Qué emoción visitó más esta semana y qué intentaba decirme?'
+      ],
+      aire: [
+        'Chandra Bhedana (respiración lunar) — Cómo: inhala solo por la fosa izquierda y exhala por la derecha, 5 minutos. Para qué: activa tu energía yin/lunar, ideal para fases de descanso e introspección.',
+        'Respiración diafragmática profunda — Cómo: inhala 4s expandiendo el abdomen, exhala 8s soltando todo el aire, 8 rondas. Para qué: activa el sistema parasimpático y alivia la tensión o el cólico.',
+        'Bhramari (respiración de abeja) — Cómo: inhala profundo y exhala emitiendo un zumbido suave con los labios cerrados, 6 rondas. Para qué: calma el sistema nervioso y los pensamientos rumiantes.'
+      ],
+      fuego: [
+        'Baile muy suave y libre, solo para tu cuerpo, sin coreografía.',
+        'Estiramientos lentos con música que te abrace.',
+        'Camina despacio al aire libre, sin meta ni ritmo.'
+      ],
+      tierra: [
+        'Un baño caliente con intención de descanso.',
+        'Organiza un solo cajón pequeño, nada más.',
+        'Té caliente y 10 minutos sin pantallas.'
+      ]
+    }
+  },
+  folicular: {
+    label: 'Folicular',
+    sub: 'luna creciente · renacer y creatividad',
+    glyph: '🌒',
+    color: 'var(--folicular)',
+    energy: 'Energía ascendente. Es buen momento para empezar cosas nuevas y dejar que la curiosidad lidere.',
+    pools: {
+      agua: [
+        '¿Qué quiero crear en este nuevo ciclo?',
+        'Haz una lluvia de ideas libre, sin filtro, de todo lo que te emociona.',
+        'Escribe sobre algo que llevas tiempo queriendo empezar.'
+      ],
+      aire: [
+        'Nadi Shodhana (respiración alterna) — Cómo: tapa la fosa derecha, inhala 4s por la izquierda, cambia y exhala 4s por la derecha; alterna 5 minutos. Para qué: equilibra ambos hemisferios y prepara la mente para crear con claridad.',
+        'Kapalabhati suave (respiración de fuego ligera) — Cómo: exhalaciones cortas y activas por la nariz, 20 repeticiones x 2 rondas. Para qué: despierta energía y enfoque mental sin sobre-estimularte.',
+        'Ujjayi (respiración del océano) — Cómo: inhala y exhala por la nariz contrayendo ligeramente la garganta, con un sonido suave de oleaje, 5 minutos. Para qué: sostiene una energía constante y enfocada durante el día.'
+      ],
+      fuego: [
+        'Clase de baile o coreografía nueva que quieras aprender.',
+        'Cardio moderado, algo que te haga sonreír.',
+        'Prueba un movimiento o disciplina que nunca has intentado.'
+      ],
+      tierra: [
+        'Organiza tu espacio o agenda para la semana que viene.',
+        'Fuerza moderada en el gym, sin presión por superarte hoy.',
+        'Planea una comida nutritiva nueva para probar.'
+      ]
+    }
+  },
+  ovulatoria: {
+    label: 'Ovulatoria',
+    sub: 'luna llena · brillo y expresión',
+    glyph: '🌕',
+    color: 'var(--ovulatoria)',
+    energy: 'Pico de energía. Es tu mejor momento para comunicar, socializar y brillar sin pedir permiso.',
+    pools: {
+      agua: [
+        'Journaling de gratitud: tres cosas que celebras de ti hoy.',
+        '¿Qué quiero decir en voz alta que no he dicho?',
+        'Escribe sobre un momento reciente donde brillaste.'
+      ],
+      aire: [
+        'Box breathing / Sama Vritti — Cómo: inhala 4s, sostén 4s, exhala 4s, sostén 4s; repite 6 rondas. Para qué: te da seguridad y presencia antes de hablar, brillar o socializar.',
+        'Dirgha (respiración completa) — Cómo: inhala llenando abdomen, costillas y pecho; exhala en el orden inverso, 5 minutos. Para qué: maximiza tu energía disponible y la sensación de plenitud.',
+        'Surya Bhedana (respiración solar) — Cómo: inhala solo por la fosa derecha y exhala por la izquierda, 5 minutos. Para qué: activa tu energía yang/solar, perfecta para tu pico de extroversión.'
+      ],
+      fuego: [
+        'Clase de baile completa, dale todo tu cuerpo hoy.',
+        'Entrenamiento de alta intensidad, este es tu pico de fuerza.',
+        'Actividad física social: clase grupal, salir a moverte con otros.'
+      ],
+      tierra: [
+        'Agenda esa conversación o reunión importante para hoy.',
+        'Fuerza máxima en el gym, tu cuerpo te lo permite.',
+        'Socializa con intención, hoy tu energía conecta fácil.'
+      ]
+    }
+  },
+  lutea: {
+    label: 'Lútea',
+    sub: 'luna menguante · organizar y cerrar',
+    glyph: '🌖',
+    color: 'var(--lutea)',
+    energy: 'Energía descendente. Momento de atención al detalle, de cerrar ciclos antes de que empiece el descanso.',
+    pools: {
+      agua: [
+        '¿Qué funcionó en este ciclo y qué quiero soltar del siguiente?',
+        'Shadow work suave: ¿qué inseguridad apareció y qué me quiso enseñar?',
+        'Escribe una lista de cierre: pendientes, gratitudes, aprendizajes.'
+      ],
+      aire: [
+        'Nadi Shodhana (respiración alterna) — Cómo: inhala 4s por una fosa, exhala 4s por la otra, alternando 5 minutos. Para qué: equilibra el sistema nervioso mientras tu energía empieza a bajar.',
+        'Respiración con exhalación extendida — Cómo: inhala 4s, exhala 6-8s, 8 rondas. Para qué: activa el sistema parasimpático y ayuda a soltar la tensión premenstrual.',
+        'Bhramari (respiración de abeja) — Cómo: inhala profundo y exhala zumbando suavemente, 6 rondas. Para qué: calma la irritabilidad y ayuda a procesar emociones antes de cerrar el ciclo.'
+      ],
+      fuego: [
+        'Movimiento moderado, baja la intensidad poco a poco.',
+        'Baile suave en casa, sin exigirte coreografía.',
+        'Actividad física tranquila: yoga, pilates o caminar.'
+      ],
+      tierra: [
+        'Organiza el hogar: un espacio que necesite orden.',
+        'Cierra tareas pendientes antes de que termine el ciclo.',
+        'Rutina de cuidado personal, date ese tiempo.'
+      ]
+    }
+  }
+};
+
+const ELEMENTS = [
+  {key:'agua', name:'Agua', sub:'journaling', glyph: triGlyph('down')},
+  {key:'aire', name:'Aire', sub:'breathwork · pranayama', glyph: triGlyph('up-bar')},
+  {key:'fuego', name:'Fuego', sub:'baile / actividad física', glyph: triGlyph('up')},
+  {key:'tierra', name:'Tierra', sub:'ejercicio / otros', glyph: triGlyph('down-bar')}
+];
+
+function triGlyph(kind){
+  // minimal alchemical-style glyphs as inline SVG strings
+  if(kind==='up') return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,4 23,21 3,21" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  if(kind==='down') return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,22 3,5 23,5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  if(kind==='up-bar') return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,4 23,21 3,21" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="7" y1="15" x2="19" y2="15" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  return `<svg class="glyph" viewBox="0 0 26 26"><polygon points="13,22 3,5 23,5" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="7" y1="11" x2="19" y2="11" stroke="currentColor" stroke-width="1.6"/></svg>`;
+}
+
+function phaseForDay(dayInCycle, cycleLength){
+  const frac = dayInCycle / cycleLength;
+  if(frac <= 0.18) return 'menstrual';
+  if(frac <= 0.46) return 'folicular';
+  if(frac <= 0.57) return 'ovulatoria';
+  return 'lutea';
+}
+
+function diffInDays(a,b){
+  const ms = b.setHours(0,0,0,0) - a.setHours(0,0,0,0);
+  return Math.floor(ms / 86400000);
+}
+
+function getCycleInfo(config){
+  const start = new Date(config.lastPeriodStart + 'T00:00:00');
+  const today = new Date();
+  let elapsed = diffInDays(new Date(start), new Date(today));
+  if(elapsed < 0) elapsed = 0;
+  const dayInCycle = (elapsed % config.cycleLength) + 1;
+  const phaseKey = phaseForDay(dayInCycle, config.cycleLength);
+  return { dayInCycle, cycleLength: config.cycleLength, phaseKey, fraction: dayInCycle / config.cycleLength };
+}
+
+// ---------- Storage helpers ----------
+async function loadConfig(){
+  try{
+    const r = await window.storage.get('cycle-config');
+    return r ? JSON.parse(r.value) : null;
+  }catch(e){ return null; }
+}
+async function saveConfig(cfg){
+  try{ await window.storage.set('cycle-config', JSON.stringify(cfg)); }
+  catch(e){ showToast('No se pudo guardar. Intenta de nuevo.'); }
+}
+async function loadDay(dateKey){
+  try{
+    const r = await window.storage.get('day:' + dateKey);
+    return r ? JSON.parse(r.value) : {checks:{}, journal:''};
+  }catch(e){ return {checks:{}, journal:''}; }
+}
+async function saveDay(dateKey, data){
+  try{ await window.storage.set('day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar tu progreso de hoy.'); }
+}
+
+// ---------- Rituales: data ----------
+const HAIR_SCHEDULE = {
+  0: { label: 'Día libre', desc: 'Sin tarea fija de cabello hoy.' },
+  1: { label: 'Pre-shampoo', desc: 'Antes de natación: aplica tu pre-shampoo protector.' },
+  2: { label: 'Cepillado', desc: 'Cepilla bien el cabello en la mañana.' },
+  3: { label: 'Cuidado normal', desc: 'Rutina habitual, sin lavado.' },
+  4: { label: 'Lavado', desc: 'Día de lavado de cabello.' },
+  5: { label: 'Cuidado normal', desc: 'Rutina habitual, sin lavado.' },
+  6: { label: 'Lavado', desc: 'Día de lavado de cabello.' }
+};
+const WEEKDAY_SHORT = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const WEEKDAY_FULL = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
+// ---------- Nutrición: requerimiento diario (de tu plan médico) ----------
+const NUTRI_TARGETS = {
+  kcal: 1835,
+  protein: 106,
+  carbs: 220,
+  fats: 59,
+  tmb: 1371,
+  get: 2126,
+  objetivo: 'Recomposición corporal'
+};
+
+// ---------- Nutrición: ensalada única que rota cada mes, solo con verduras que te gustan ----------
+const WEEKLY_SALADS = [
+  'Rúcula y zanahoria rallada (80 gr) con vinagreta sin calorías',
+  'Espinaca y pimentón (80 gr) con vinagreta balsámica',
+  'Brócoli al vapor y cebolla morada (80 gr) con vinagreta sin calorías',
+  'Rúcula y brócoli con zanahoria rallada (80 gr) y vinagreta balsámica'
+];
+function getWeeklySalad(date){
+  const ref = new Date('2026-01-05T00:00:00'); // lunes de referencia
+  const weeksSince = Math.floor((date - ref) / (7*86400000));
+  const idx = ((weeksSince % WEEKLY_SALADS.length) + WEEKLY_SALADS.length) % WEEKLY_SALADS.length;
+  return WEEKLY_SALADS[idx];
+}
+
+// ---------- Nutrición: menú semanal fijo (mismo cada semana, así la lista de mercado es predecible) ----------
+// Snacks de media mañana: en tus 3 días de entreno (lun/mié/sáb) llevan algo de proteína de recuperación;
+// el resto de días priorizan volumen y fibra (pan integral + vegetales) en vez de más proteína,
+// porque desayuno+almuerzo+cena ya cubren bien tu meta diaria.
+const WEEK_MENU = {
+  1: { // Lunes — entreno: natación
+    desayuno: { proteina:'2 huevos completos (100 gr) + 3 claras (90 gr)', carbo:'30 gr de avena en hojuelas + 10 gr de semillas de chía', fruta:'70 gr de fresas', grasa:'45 gr de cacao en polvo' },
+    almuerzo: { proteina:'150 gr de pollo', carbo:'150 gr de papa en cascos', fibraExtra:'1 cda (10 gr) de semillas de linaza molida sobre el plato' },
+    cena: '1 tortilla de maíz (30 gr) + 120 gr de pollo desmechado + 20 gr de queso',
+    mediaManana: 'Waffle con 30 gr de avena + 15 gr de proteína en polvo (día de entreno: te ayuda a recuperar)',
+    mediaTarde: '120 gr de yogurt griego + 1 cda (15 gr) de mermelada sin azúcar',
+    prep: ['Porciona 150 gr y 120 gr de pollo para almuerzo y cena.', 'Lava la fruta de mañana antes de dormir.']
+  },
+  2: { // Martes — sin entreno dirigido
+    desayuno: { proteina:'4 lonjas (80 gr) de jamón de pavo', carbo:'30 gr de avena en hojuelas + 10 gr de semillas de chía', fruta:'60 gr de piña', grasa:'45 gr de queso mozzarella' },
+    almuerzo: { proteina:'150 gr de pollo', carbo:'150 gr de yuca', fibraExtra:'1 cda (10 gr) de semillas de chía sobre el plato' },
+    cena: '1 tortilla de maíz (30 gr) + 1 lata pequeña (120 gr) de atún en agua + 30 gr de aguacate',
+    mediaManana: 'Sándwich: 60 gr de pan integral + 1 lonja (20 gr) de queso + pimentón, cebolla y espinaca salteada (60 gr)',
+    mediaTarde: '1 porción (200 gr) de gelatina sin calorías',
+    prep: ['Cocina la yuca con anticipación: aguanta lista en la nevera 2-3 días.', 'Saltea el pimentón, cebolla y espinaca para el sándwich y guárdalos en un recipiente.']
+  },
+  3: { // Miércoles — entreno: baile, día de salmón en el almuerzo
+    desayuno: { proteina:'20 gr de proteína en polvo + 130 ml de yogurt griego + 1 cda (15 gr) de mermelada sin azúcar (sin huevo: hoy usas salmón al almuerzo)', carbo:'1 arepa (80 gr)', fruta:'100 gr de frutos rojos', grasa:'45 gr de queso parmesano' },
+    almuerzo: { proteina:'150 gr de salmón', carbo:'150 gr de papa en cascos', fibraExtra:'1 cda (10 gr) de semillas de linaza molida sobre el plato' },
+    cena: '1 tortilla de maíz (30 gr) + 3 huevos revueltos (150 gr)',
+    mediaManana: 'Waffle con 30 gr de avena + 15 gr de proteína en polvo (día de entreno: te ayuda a recuperar)',
+    mediaTarde: '20 gr de proteína en shake con agua o leche deslactosada',
+  },
+  4: { // Jueves — sin entreno dirigido
+    desayuno: { proteina:'80 gr de queso descremado', carbo:'30 gr de avena en hojuelas + 10 gr de semillas de chía', fruta:'70 gr de papaya', grasa:'45 gr de cacao en polvo' },
+    almuerzo: { proteina:'150 gr de pollo', carbo:'150 gr de yuca', fibraExtra:'1 cda (10 gr) de semillas de chía sobre el plato' },
+    cena: '1 tortilla de maíz (30 gr) + 4 lonjas (80 gr) de jamón de pavo + 20 gr de queso',
+    mediaManana: 'Sándwich: 60 gr de pan integral + 1 lonja (20 gr) de queso + pimentón, cebolla y espinaca salteada (60 gr)',
+    mediaTarde: '1 porción (200 gr) de gelatina sin calorías',
+    prep: ['Prepara el jamón y el queso para la cena.', 'Si no quedó yuca del martes, cocina de nuevo hoy.']
+  },
+  5: { // Viernes — sin entreno dirigido
+    desayuno: { proteina:'1 scoop (25 gr) de proteína', carbo:'30 gr de avena en hojuelas + 10 gr de semillas de chía', fruta:'100 gr de frutos rojos', grasa:'45 gr de queso holandés' },
+    almuerzo: { proteina:'150 gr de pollo', carbo:'150 gr de papa en cascos', fibraExtra:'1 cda (10 gr) de semillas de linaza molida sobre el plato' },
+    cena: '1 tortilla de maíz (30 gr) + 120 gr de pollo + 30 gr de aguacate',
+    mediaManana: 'Sándwich: 60 gr de pan integral + 1 lonja (20 gr) de queso + pimentón, cebolla y espinaca salteada (60 gr)',
+    mediaTarde: '120 gr de yogurt griego + 1 cda (15 gr) de mermelada sin azúcar',
+    prep: ['Pesa la papa para el almuerzo de mañana.', 'Deja listo el pollo de la cena desde la mañana.']
+  },
+  6: { // Sábado — entreno: pesas (glúteo)
+    desayuno: { proteina:'2 huevos completos (100 gr) + 3 claras (90 gr)', carbo:'30 gr de avena en hojuelas + 10 gr de semillas de chía', fruta:'60 gr de piña', grasa:'45 gr de cacao en polvo' },
+    almuerzo: { proteina:'150 gr de pollo', carbo:'150 gr de arroz (tu carbo ocasional)', fibraExtra:'1 cda (10 gr) de semillas de chía sobre el plato' },
+    cena: '1 tortilla de maíz (30 gr) + 120 gr de pollo + 30 gr de aguacate',
+    mediaManana: 'Waffle con 30 gr de avena + 15 gr de proteína en polvo (día de entreno: te ayuda a recuperar)',
+    mediaTarde: '1 porción (200 gr) de gelatina sin calorías',
+    prep: ['Cocina el arroz para hoy mismo.', 'Hoy entrenas pesas: deja el pollo listo desde temprano para no llegar sin comer post-entreno.']
+  },
+  0: { // Domingo — descanso y prep de la semana
+    desayuno: { proteina:'4 lonjas (80 gr) de jamón de pavo', carbo:'30 gr de avena en hojuelas + 10 gr de semillas de chía', fruta:'70 gr de sandía', grasa:'45 gr de queso mozzarella' },
+    almuerzo: { proteina:'150 gr de pollo', carbo:'150 gr de yuca', fibraExtra:'1 cda (10 gr) de semillas de linaza molida sobre el plato' },
+    cena: '1 tortilla de maíz (30 gr) + 3 huevos revueltos (150 gr) + 20 gr de queso',
+    mediaManana: 'Sándwich: 60 gr de pan integral + 1 lonja (20 gr) de queso + pimentón, cebolla y espinaca salteada (60 gr)',
+    mediaTarde: '120 gr de yogurt griego + 1 cda (15 gr) de mermelada sin azúcar',
+    prep: ['Día ideal para porcionar y dejar listo el pollo de toda la semana.', 'Saltea una buena cantidad de pimentón, cebolla y espinaca para tener lista toda la semana.']
+  }
+};
+
+const SUPPLEMENTS = [
+  {key:'supp-am', moment:'Mañana', name:'Vitamina D + Probióticos'},
+  {key:'supp-lunch', moment:'Almuerzo', name:'Omega 3'},
+  {key:'supp-night', moment:'Noche', name:'Glicinato de magnesio'}
+];
+
+const WATER_GOAL_ML = 2000; // meta diaria en ml
+const WATER_STEP_ML = 200; // tamaño de cada incremento
+
+// ---------- Mercado como inventario, con frecuencia de compra ----------
+const GROCERY_INVENTORY = [
+  {name:'Pollo', qty:'8 porciones de 170 gr (~1.260 gr que necesitas)', freq:'Semanal', cost:8*5300},
+  {name:'Salmón', qty:'1 porción de 350 gr (sobra para otra comida)', freq:'Semanal', cost:22000},
+  {name:'Jars de verduras (rúcula, brócoli, zanahoria, pimentón, cebolla, espinaca)', qty:'2 jars de 500 gr aprox.', freq:'Semanal', cost:2*8300},
+  {name:'Papa', qty:'~450 gr (3 almuerzos: lunes, miércoles, viernes)', freq:'Semanal'},
+  {name:'Yuca', qty:'~450 gr (3 almuerzos: martes, jueves, domingo)', freq:'Semanal'},
+  {name:'Arroz', qty:'150 gr (solo la porción del sábado)', freq:'Semanal'},
+  {name:'Papaya, piña, frutos rojos, fresas, sandía', qty:'porciones pequeñas, solo para desayuno', freq:'Semanal'},
+  {name:'Huevos', qty:'1 docena', freq:'Semanal'},
+  {name:'Jamón de pavo bajo en sodio', qty:'1 paquete', freq:'Semanal'},
+  {name:'Atún en lata', qty:'1 lata pequeña', freq:'Semanal'},
+  {name:'Yogurt griego', qty:'~500 gr', freq:'Semanal'},
+  {name:'Tortillas de maíz', qty:'7 unidades (una por cena)', freq:'Semanal'},
+  {name:'Pan integral', qty:'1 paquete', freq:'Quincenal'},
+  {name:'Proteína en polvo (scoop)', qty:'1 tarro', freq:'Mensual'},
+  {name:'Avena en hojuelas', qty:'1 paquete (la usas casi todos los días, revisa que no se acabe)', freq:'Mensual'},
+  {name:'Arepas', qty:'1 paquete (para el miércoles)', freq:'Mensual'},
+  {name:'Mermelada sin azúcar añadida', qty:'1 frasco', freq:'Mensual'},
+  {name:'Cacao en polvo', qty:'1 bolsa', freq:'Mensual'},
+  {name:'Quesos: mozzarella, parmesano, holandés, descremado', qty:'en rotación', freq:'Mensual'},
+  {name:'Gelatina sin calorías', qty:'varias porciones', freq:'Mensual'},
+  {name:'Vinagre de sidra de manzana', qty:'1 botella', freq:'Mensual'},
+  {name:'Vinagretas (sin calorías y balsámica)', qty:'1 de cada', freq:'Mensual'},
+  {name:'Semillas de chía y linaza molida', qty:'1 bolsa de cada', freq:'Mensual'},
+  {name:'Vitamina D3, probióticos, omega 3, glicinato de magnesio', qty:'1 frasco de cada', freq:'Mensual'}
+];
+
+// ---------- Ejercicio: rutina semanal optimizada ----------
+// El sábado solo entrenas glúteo (fijo, sin rotación). Como eso deja sin estímulo directo
+// el tren superior y los cuádriceps/isquios el resto de la semana, los 20 min de martes y
+// viernes se reasignan a esos grupos en vez de repetir pilates todos los días.
+const GYM_DAY_GLUTEO = {
+  title: 'Glúteo',
+  items: [
+    'Calentamiento: movilidad de cadera, rodilla y tobillo + abducción/aducción con máquina o banda.',
+    'Patada de rana con banda (3s de contracción), 4 series de 10.',
+    'Hip thrust en máquina, 4 series de 16.',
+    'Patada de glúteo en polea cruzada, 3 series de 12.',
+    'Extensión de cuádriceps, 4 series de 12.',
+    'Sentadilla sumo, 4 series de 12.',
+    'Curl femoral acostado, 2 series de 16.',
+    'Abdomen (rutina de Pautas).'
+  ]
+};
+
+const WEEKDAY_EXERCISE = {
+  1: { type:'fijo', title:'Natación', detail:'Tu día fijo de natación — se mantiene tal cual.' },
+  2: { type:'boost', title:'Pilates · Tren superior · 20 min', items:[
+      'Calentamiento: rotación de hombros y movilidad de muñecas, 1 minuto.',
+      'Swan (extensión de espalda alta), 3 series de 8.',
+      'Plancha alta-baja (entrando y saliendo del antebrazo), 3 series de 10.',
+      'Fondos de tríceps en silla, 3 series de 12.',
+      'Swimming (extensión de brazo y pierna opuesta), 3 series de 10 por lado.',
+      'Círculos de brazo (con o sin peso ligero), 2 series de 15.'
+    ], why:'Como el sábado solo entrenas glúteo, este es el único momento de tu semana que trabaja brazos, hombros y espalda — sin esto, esa zona no recibiría estímulo. Y como es pilates, sabes que sí lo vas a hacer.' },
+  3: { type:'fijo', title:'Baile', detail:'Tu día fijo de baile — se mantiene tal cual.' },
+  4: { type:'boost', title:'Pilates · Abdomen · 20 min', items:[
+      'The Hundred (pulsos de brazo respirando), 1 serie de 100 pulsos.',
+      'Roll-Up (o roll-up asistido con manos en los muslos), 3 series de 8.',
+      'Criss-Cross, 3 series de 12 por lado.',
+      'Double Leg Stretch, 3 series de 10.',
+      'Plancha con toque de talón alternado, 3 series de 12.'
+    ], why:'Va directo a tu meta de tonificar abdomen — el core es donde el pilates rinde más.' },
+  5: { type:'boost', title:'Pilates · Piernas y glúteo · 20 min', items:[
+      'Calentamiento: movilidad de cadera, 1 minuto.',
+      'Side Kick series (elevaciones de pierna de lado), 3 series de 12 por lado.',
+      'Shoulder Bridge (puente con elevación de cadera), 3 series de 12.',
+      'Single Leg Circle, 2 series de 8 por lado.',
+      'Clamshell con banda o sin banda, 3 series de 15 por lado.',
+      'Sentadilla pilates (plié), 3 series de 12.'
+    ], why:'El sábado solo trabajas glúteo en el gym, así que aquí entran cuádriceps e isquiotibiales para que no se queden sin estímulo — todo en formato pilates, para que sí lo cumplas.' },
+  6: { type:'pesas', title:'Glúteo', detail:'Tu día fijo de pesas — siempre glúteo.' },
+  0: { type:'boost', title:'Pilates · Movilidad y restaurativo · 20 min', items:[
+      'Spine Stretch Forward, 3 series de 6.',
+      'Saw, 3 series de 6 por lado.',
+      'Cat-Cow, 8 repeticiones lentas.',
+      'Mermaid Stretch, 2 series de 30 seg por lado.',
+      'Postura del niño (child\'s pose) para cerrar, 1 minuto.'
+    ], why:'Recuperación activa después de las pesas del sábado, para llegar fresca al lunes de natación.' }
+};
+
+function getWeekKey(date){
+  const d = new Date(date);
+  const dow = (d.getDay() + 6) % 7; // 0 = lunes
+  d.setDate(d.getDate() - dow);
+  return d.toISOString().slice(0,10);
+}
+function nextMonday(date){
+  const d = new Date(date);
+  const dow = d.getDay();
+  const add = dow === 1 ? 7 : ((8 - dow) % 7 || 7);
+  d.setDate(d.getDate() + add);
+  return d;
+}
+function fmtShort(d){
+  return d.toLocaleDateString('es-CO', {day:'numeric', month:'short'});
+}
+
+// ---------- Hogar: cuidado de plantas ----------
+const PLANT_CARE = [
+  { name:'Calatheas (x2)', water:'Miércoles y domingo', care:'Tierra húmeda pero no encharcada. Usa agua filtrada o reposada — son sensibles al cloro del agua de la llave. Luz indirecta, nunca sol directo. Les encanta la humedad ambiente.' },
+  { name:'Fittonias (x2)', water:'Lunes, miércoles, jueves y domingo', care:'No dejes que la tierra se seque del todo — se marchitan rápido y se notan caídas casi de inmediato. Les encanta la humedad. Luz indirecta media.' },
+  { name:'Begonia', water:'Domingo', care:'Riega cuando la primera capa de tierra esté seca al tacto. Evita mojar las hojas al regar. Luz indirecta brillante.' },
+  { name:'Romero', water:'Miércoles y domingo', care:'Deja secar un poco la tierra entre riegos, pero no del todo. Necesita buena luz y buen drenaje — no le gustan los pies mojados.' },
+  { name:'Cactus', water:'Cada 15 días (domingo)', care:'Deja secar la tierra por completo entre riegos. Mucha luz directa.' },
+  { name:'Sábila (aloe vera)', water:'Cada 15 días (domingo)', care:'Igual que el cactus: riega solo cuando la tierra esté completamente seca. Luz brillante.' }
+];
+
+function isSucculentWeek(date){
+  const ref = new Date('2026-01-05T00:00:00'); // lunes de referencia
+  const weeksSince = Math.floor((date - ref) / (7*86400000));
+  return ((weeksSince % 2) + 2) % 2 === 0;
+}
+
+// ---------- Hogar: tareas de la semana ----------
+// Piso cada día de por medio, riego repartido según la necesidad real de cada planta,
+// y el resto de tareas distribuidas para que ningún día se sienta pesado.
+function getHogarTasks(date){
+  const dow = date.getDay();
+  const tasks = {
+    1: [ // Lunes
+      {key:'piso', name:'Aspiradora automática (piso)'},
+      {key:'riego', name:'Riego: fittonias', desc:'No dejes que se sequen del todo.'},
+      {key:'platos', name:'Lavado de platos'}
+    ],
+    2: [ // Martes
+      {key:'ropa', name:'Lavado y doblado de ropa'},
+      {key:'platos', name:'Lavado de platos'}
+    ],
+    3: [ // Miércoles
+      {key:'piso', name:'Aspiradora automática (piso)'},
+      {key:'riego', name:'Riego: calatheas, fittonias y romero', desc:'Tierra húmeda pero no encharcada en las calatheas; deja secar un poco la tierra del romero entre riegos.'},
+      {key:'bano', name:'Lavado del baño'},
+      {key:'platos', name:'Lavado de platos'}
+    ],
+    4: [ // Jueves
+      {key:'riego', name:'Riego: fittonias', desc:'Se marchitan rápido si les falta agua.'},
+      {key:'platos', name:'Lavado de platos'}
+    ],
+    5: [ // Viernes
+      {key:'piso', name:'Aspiradora automática (piso)'},
+      {key:'escritorio', name:'Organización de escritorio'},
+      {key:'ropa', name:'Lavado y doblado de ropa'},
+      {key:'platos', name:'Lavado de platos'}
+    ],
+    6: [ // Sábado
+      {key:'bano', name:'Lavado del baño'},
+      {key:'platos', name:'Lavado de platos'}
+    ],
+    0: [ // Domingo
+      {key:'piso', name:'Aspiradora automática (piso)'},
+      {key:'riego', name: isSucculentWeek(date) ? 'Riego general: calatheas, fittonias, begonia, romero + cactus y sábila (tu domingo quincenal)' : 'Riego general: calatheas, fittonias, begonia y romero', desc:'Las calatheas y fittonias con tierra húmeda; la begonia y el romero solo si la primera capa de tierra ya está seca.'},
+      {key:'sabanas', name:'Cambio de sábanas'},
+      {key:'closet', name:'Organización de closets'},
+      {key:'platos', name:'Lavado de platos'}
+    ]
+  };
+  return tasks[dow];
+}
+
+// ---------- Learning: inglés conversacional B2+ → pro, basado en neurociencia ----------
+const LEARNING_PRINCIPLES = [
+  { name:'Refuerzo espaciado', desc:'Repasar el mismo chunk a intervalos crecientes (1, 3, 7, 14 días) lo mueve de memoria de corto a largo plazo — la curva del olvido de Ebbinghaus.' },
+  { name:'Recuperación activa', desc:'Intentar producir la frase de memoria (no solo releerla) activa la memoria mucho más fuerte que repasar pasivamente — es el "testing effect".' },
+  { name:'Input +1 (Krashen)', desc:'Consume contenido un poco arriba de tu nivel actual, ni demasiado fácil ni imposible — ahí ocurre la adquisición real.' },
+  { name:'Chunking', desc:'Aprende frases completas ("drive engagement", "catch up later"), no palabras sueltas. Tu cerebro las recupera como una sola unidad, mucho más rápido que armar la frase palabra por palabra.' },
+  { name:'Shadowing', desc:'Repetir en voz alta exactamente al mismo tiempo que el audio entrena el acople entre tu corteza auditiva y motora — así se gana ritmo y acento natural, no solo vocabulario.' },
+  { name:'Interleaving', desc:'Alternar casual y business en vez de bloques largos de un solo tema mejora la retención y tu capacidad de cambiar de registro rápido, como en la vida real.' },
+  { name:'Consolidación en el sueño', desc:'Repasar el chunk más difícil del día justo antes de dormir ayuda a que el cerebro lo consolide durante el sueño.' },
+  { name:'Reducir la traducción mental', desc:'Cada vez que piensas en español y traduces, refuerzas el camino lento. Practicar pensar directo en inglés en rutinas simples construye el camino directo concepto→inglés.' }
+];
+
+const LEARNING_DAILY_HABIT = { title:'Shadowing + repaso espaciado · 15 min', detail:'10 min de shadowing (repite en voz alta exactamente con el audio, sin pausar) de un clip corto + 5 min de repaso de tus chunks guardados (los más viejos primero).' };
+
+const LEARNING_WEEKDAY_EXTRA = {
+  1: null,
+  2: { title:'Speaking casual · 15-20 min', detail:'Sesión de conversación casual — Tandem o HelloTalk, o el modo de voz de Claude/ChatGPT si quieres calentar antes de hablar con una persona real.' },
+  3: null,
+  4: { title:'Speaking business · 15-20 min', detail:'Practica narrar un insight de datos o defender una idea de marketing en inglés, en voz alta, sin guion.' },
+  5: null,
+  6: null,
+  0: { title:'Contenido largo + chunks nuevos', detail:'Escucha un episodio completo de podcast (alterna casual y business cada semana) y extrae 5 chunks nuevos para tu banco.' }
+};
+
+const TRACK_CASUAL = {
+  goal: 'Hablar sin pausas raras, sonar natural en charla cotidiana: humor, opinión, planes, small talk.',
+  resources: [
+    'Shadowing: podcasts "Real English Conversations", "American English Podcast" (Shana Thompson), "Speak English with Vanessa".',
+    'Intercambio gratis: Tandem o HelloTalk — busca partners nativos interesados en practicar español, así el intercambio es parejo.',
+    'Práctica de bajo riesgo: el modo de voz de Claude o ChatGPT antes de hablar con una persona real — sin pena, sin juicio.',
+    'Mira un show ligero sin subtítulos en español; pausa y repite las frases que te gusten (shadowing improvisado).'
+  ],
+  chunks: ['catch up later', "I'm down for that", 'no biggie', "I've been meaning to...", 'that totally makes sense']
+};
+
+const TRACK_BUSINESS = {
+  goal: 'Presentar datos, defender una idea de marketing y sonar segura en una reunión en inglés.',
+  resources: [
+    'Podcasts: "Marketing Against The Grain", "Marketing School" (Neil Patel), "DataFramed" (DataCamp) para vocabulario de datos.',
+    'Lee 1 artículo corto de Harvard Business Review o Marketing Week por semana — subraya 5 frases (chunks) que usarías tú misma.',
+    'Ejercicio semanal: toma un gráfico o insight real de tu trabajo y nárralo en voz alta en inglés, como si lo presentaras — 2 minutos, sin guion.',
+    'Simula una reunión con Claude/ChatGPT en modo voz: "Walk me through this data" o "Why did engagement drop?"'
+  ],
+  chunks: ['drive engagement', 'year-over-year growth', 'actionable insights', 'conversion funnel', 'stakeholder buy-in', "let's circle back on that"]
+};
+
+const LEARNING_ROADMAP = [
+  { stage:'Mes 1 · Cimientos', detail:'Construye un banco de 50-100 chunks (mitad casual, mitad business). Instala el hábito diario de shadowing. Empieza a notar cuándo traduces mentalmente y practica pensar directo en inglés en rutinas simples (mientras cocinas, te alistas).' },
+  { stage:'Mes 2 · Producción activa', detail:'Las 2 sesiones de speaking por semana ya son consistentes. Grábate hablando 2 minutos sobre un tema cualquiera — esa grabación es tu línea base para medir progreso real.' },
+  { stage:'Mes 3 · Fluidez de dominio', detail:'Presenta un mini caso de datos/marketing en inglés sin leer. En casual, sostén 15 minutos de conversación sin traducir mentalmente ninguna frase.' },
+  { stage:'Mes 4+ · Refinamiento', detail:'Compara tu grabación actual con la del mes 2 — el progreso real motiva más que cualquier meta abstracta. Enfócate en cambiar de registro (casual↔formal) con fluidez y en pulir el acento con shadowing de contenido más avanzado.' }
+];
+
+async function loadRitualDay(dateKey){
+  try{
+    const r = await window.storage.get('ritual-day:' + dateKey);
+    return r ? JSON.parse(r.value) : {};
+  }catch(e){ return {}; }
+}
+async function saveRitualDay(dateKey, data){
+  try{ await window.storage.set('ritual-day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+async function loadRitualWeek(weekKey){
+  try{
+    const r = await window.storage.get('ritual-week:' + weekKey);
+    return r ? JSON.parse(r.value) : { nails:false, readingMinutes:0, learningMinutes:0, meditationCount:0 };
+  }catch(e){ return { nails:false, readingMinutes:0, learningMinutes:0, meditationCount:0 }; }
+}
+async function saveRitualWeek(weekKey, data){
+  try{ await window.storage.set('ritual-week:' + weekKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar tu semana.'); }
+}
+async function loadRitualConfig(){
+  try{
+    const r = await window.storage.get('ritual-config');
+    return r ? JSON.parse(r.value) : { readingGoalHours: 3, learningGoalHours: 3, laserLastDate: null };
+  }catch(e){ return { readingGoalHours: 3, learningGoalHours: 3, laserLastDate: null }; }
+}
+async function saveRitualConfig(cfg){
+  try{ await window.storage.set('ritual-config', JSON.stringify(cfg)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+
+async function loadNutriDay(dateKey){
+  try{
+    const r = await window.storage.get('nutri-day:' + dateKey);
+    return r ? JSON.parse(r.value) : { water:0, supplements:{} };
+  }catch(e){ return { water:0, supplements:{} }; }
+}
+async function saveNutriDay(dateKey, data){
+  try{ await window.storage.set('nutri-day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+
+async function loadGroceryHave(){
+  try{
+    const r = await window.storage.get('grocery-have');
+    return r ? JSON.parse(r.value) : {};
+  }catch(e){ return {}; }
+}
+async function saveGroceryHave(data){
+  try{ await window.storage.set('grocery-have', JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+
+async function loadHogarDay(dateKey){
+  try{
+    const r = await window.storage.get('hogar-day:' + dateKey);
+    return r ? JSON.parse(r.value) : {};
+  }catch(e){ return {}; }
+}
+async function saveHogarDay(dateKey, data){
+  try{ await window.storage.set('hogar-day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+
+async function loadExerciseDay(dateKey){
+  try{
+    const r = await window.storage.get('exercise-day:' + dateKey);
+    return r ? JSON.parse(r.value) : { done:false };
+  }catch(e){ return { done:false }; }
+}
+async function saveExerciseDay(dateKey, data){
+  try{ await window.storage.set('exercise-day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+
+async function loadLearningDay(dateKey){
+  try{
+    const r = await window.storage.get('learning-day:' + dateKey);
+    return r ? JSON.parse(r.value) : { habit:false, extra:false };
+  }catch(e){ return { habit:false, extra:false }; }
+}
+async function saveLearningDay(dateKey, data){
+  try{ await window.storage.set('learning-day:' + dateKey, JSON.stringify(data)); }
+  catch(e){ showToast('No se pudo guardar.'); }
+}
+
+// ---------- Rendering ----------
+function isValidConfig(config){
+  if(!config || !config.lastPeriodStart || !config.cycleLength) return false;
+  const d = new Date(config.lastPeriodStart + 'T00:00:00');
+  return !isNaN(d.getTime()) && config.cycleLength > 0;
+}
+
+function renderSetup(){
+  app.innerHTML = `
+    <div class="card">
+      <h2>Sincronicemos tu Daily con tu ciclo</h2>
+      <p class="hint">Cuéntame cuándo empezó tu último periodo y qué tan largo es tu ciclo en promedio. Con eso calculo en qué fase estás hoy y equilibro tus 4 elementos según tu energía disponible.</p>
+      <div class="field">
+        <label for="startInput">Inicio de tu último periodo</label>
+        <input type="date" id="startInput" value="${todayStr()}">
+      </div>
+      <div class="field">
+        <label for="lengthInput">Duración promedio de tu ciclo (días)</label>
+        <input type="number" id="lengthInput" min="20" max="45" value="28">
+      </div>
+      <button class="btn" id="setupBtn">Calcular mi día</button>
+    </div>
+  `;
+  document.getElementById('setupBtn').onclick = async ()=>{
+    const start = document.getElementById('startInput').value;
+    const length = parseInt(document.getElementById('lengthInput').value || '28', 10);
+    if(!start){ showToast('Necesito una fecha de inicio.'); return; }
+    await saveConfig({lastPeriodStart: start, cycleLength: length});
+    renderDashboard();
+  };
+}
+
+// ---------- Daily: intención del día ----------
+const INTENTIONS = [
+  'Hoy elijo avanzar despacio pero sin detenerme.',
+  'Hoy honro lo que mi cuerpo me pide, no lo que "debería" hacer.',
+  'Hoy una cosa bien hecha vale más que cinco a medias.',
+  'Hoy me doy permiso de descansar sin culpa.',
+  'Hoy elijo terminar lo que empiezo, aunque sea pequeño.',
+  'Hoy celebro el progreso, no la perfección.',
+  'Hoy soy paciente con la versión de mí que está aprendiendo.',
+  'Hoy hago espacio para lo que realmente importa.',
+  'Hoy confío en el proceso, aunque no vea el resultado todavía.',
+  'Hoy elijo constancia por encima de intensidad.',
+  'Hoy me muevo con intención, no con prisa.',
+  'Hoy agradezco lo que mi cuerpo ya hace bien por mí.',
+  'Hoy una pequeña acción cuenta como progreso real.',
+  'Hoy me permito empezar, aunque no sea el momento perfecto.',
+  'Hoy escojo lo que me suma, incluso si es lo más simple.',
+  'Hoy soy gentil conmigo si algo no sale como esperaba.',
+  'Hoy disfruto el camino, no solo la meta.',
+  'Hoy elijo cuidar mi energía como cuidaría algo valioso.',
+  'Hoy hago las cosas con calma, no con ansiedad.',
+  'Hoy reconozco cada pequeño hábito como una victoria.',
+  'Hoy estoy presente en lo que hago, una cosa a la vez.',
+  'Hoy mi disciplina es un acto de amor propio, no de exigencia.',
+  'Hoy le creo a la versión de mí que está construyendo algo grande.',
+  'Hoy elijo lo simple y sostenible sobre lo perfecto e imposible.',
+  'Hoy mido mi día por intención, no solo por resultados.'
+];
+
+function hashStringToInt(str){
+  let hash = 0;
+  for(let i=0;i<str.length;i++){
+    hash = (hash * 31 + str.charCodeAt(i)) % 100000;
+  }
+  return Math.abs(hash);
+}
+
+function getDailyIntention(dateKey){
+  const idx = hashStringToInt(dateKey) % INTENTIONS.length;
+  return INTENTIONS[idx];
+}
+
+function getWeekPosition(date){
+  return (date.getDay() + 6) % 7; // 0 = lunes ... 6 = domingo
+}
+
+// ---------- Daily: resumen semanal con alertas ----------
+async function renderWeeklyOverview(today){
+  const container = document.getElementById('weeklyOverview');
+  if(!container) return;
+
+  const weekKey = getWeekKey(today);
+  const weekData = await loadRitualWeek(weekKey);
+  weekData.learningMinutes = weekData.learningMinutes || 0;
+  const config = await loadRitualConfig();
+  config.learningGoalHours = config.learningGoalHours || 3;
+  const pos = getWeekPosition(today);
+  const urgent = pos >= 5; // sábado o domingo
+  const closing = pos === 4; // viernes, aviso suave
+
+  document.getElementById('weeklyOverviewSub').textContent = urgent
+    ? '¡Se acaba la semana! Esto es lo que todavía queda pendiente.'
+    : 'Lo que no es diario pero igual hay que cumplir antes de que cierre la semana.';
+
+  const laserDue = !config.laserLastDate || diffInDays(new Date(config.laserLastDate + 'T00:00:00'), new Date(today)) >= 4;
+
+  container.innerHTML = `
+    <div class="rit-item" id="weekNails"></div>
+    <div class="rit-item" id="weekLaser"></div>
+    <div class="rit-item" id="weekReading"></div>
+    <div class="rit-item" id="weekLearning"></div>
+    <div class="rit-item" id="weekMeditation"></div>
+  `;
+
+  function alertLine(done, name){
+    if(done || !(urgent || closing)) return '';
+    const msg = urgent ? `Se acaba la semana — ${name} sigue pendiente.` : `Ya casi termina la semana — no olvides ${name}.`;
+    return `<div class="rit-item-desc" style="color:var(--menstrual); margin-top:6px;">⚠ ${msg}</div>`;
+  }
+
+  // Uñas
+  const weekNails = document.getElementById('weekNails');
+  weekNails.className = 'rit-item' + (weekData.nails ? ' done' : '');
+  weekNails.innerHTML = `<label class="rit-row">
+      <input type="checkbox" ${weekData.nails ? 'checked' : ''}>
+      <div><div class="rit-item-name">Uñas</div><div class="rit-item-desc">Una vez por semana.</div></div>
+    </label>
+    ${alertLine(weekData.nails, 'hacerte las uñas')}`;
+  weekNails.querySelector('input').onchange = async (e)=>{
+    weekData.nails = e.target.checked;
+    await saveRitualWeek(weekKey, weekData);
+    renderWeeklyOverview(today);
+  };
+
+  // Láser
+  const weekLaser = document.getElementById('weekLaser');
+  weekLaser.className = 'rit-item' + (!laserDue ? ' done' : '');
+  weekLaser.innerHTML = `
+    <div class="rit-item-name">Láser</div>
+    <div class="rit-item-desc">${laserDue ? 'Te toca hoy.' : 'Al día, cada 4 días aprox.'}</div>
+    <div class="quick-add"><button class="qbtn" id="weekLaserBtn">Hecho hoy</button></div>
+    ${alertLine(!laserDue, 'tu sesión de láser')}
+  `;
+  document.getElementById('weekLaserBtn').onclick = async ()=>{
+    config.laserLastDate = todayStr();
+    await saveRitualConfig(config);
+    renderWeeklyOverview(today);
+  };
+
+  // Lectura
+  const readingGoalMin = config.readingGoalHours * 60;
+  const readingDone = weekData.readingMinutes >= readingGoalMin;
+  const readingPct = Math.min(100, Math.round((weekData.readingMinutes / readingGoalMin) * 100));
+  const weekReading = document.getElementById('weekReading');
+  weekReading.className = 'rit-item' + (readingDone ? ' done' : '');
+  weekReading.innerHTML = `
+    <div class="rit-item-name">Lectura</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${readingPct}%"></div></div>
+    <div class="rit-item-desc">${(weekData.readingMinutes/60).toFixed(1)}h de ${config.readingGoalHours}h</div>
+    <div class="quick-add">
+      <button class="qbtn" data-min="15">+15 min</button>
+      <button class="qbtn" data-min="30">+30 min</button>
+      <button class="qbtn" data-min="60">+60 min</button>
+    </div>
+    ${alertLine(readingDone, 'tu meta de lectura')}
+  `;
+  weekReading.querySelectorAll('.qbtn').forEach(btn=>{
+    btn.onclick = async ()=>{
+      weekData.readingMinutes += parseInt(btn.dataset.min, 10);
+      await saveRitualWeek(weekKey, weekData);
+      renderWeeklyOverview(today);
+    };
+  });
+
+  // Aprendizaje
+  const learningGoalMin = config.learningGoalHours * 60;
+  const learningDone = weekData.learningMinutes >= learningGoalMin;
+  const learningPct = Math.min(100, Math.round((weekData.learningMinutes / learningGoalMin) * 100));
+  const weekLearning = document.getElementById('weekLearning');
+  weekLearning.className = 'rit-item' + (learningDone ? ' done' : '');
+  weekLearning.innerHTML = `
+    <div class="rit-item-name">Aprendizaje</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${learningPct}%"></div></div>
+    <div class="rit-item-desc">${(weekData.learningMinutes/60).toFixed(1)}h de ${config.learningGoalHours}h</div>
+    <div class="quick-add">
+      <button class="qbtn" data-min="15">+15 min</button>
+      <button class="qbtn" data-min="30">+30 min</button>
+      <button class="qbtn" data-min="60">+60 min</button>
+    </div>
+    ${alertLine(learningDone, 'tu meta de aprendizaje')}
+  `;
+  weekLearning.querySelectorAll('.qbtn').forEach(btn=>{
+    btn.onclick = async ()=>{
+      weekData.learningMinutes += parseInt(btn.dataset.min, 10);
+      await saveRitualWeek(weekKey, weekData);
+      renderWeeklyOverview(today);
+    };
+  });
+
+  // Meditación
+  const meditationDone = (weekData.meditationCount || 0) >= 2;
+  const weekMeditation = document.getElementById('weekMeditation');
+  weekMeditation.className = 'rit-item' + (meditationDone ? ' done' : '');
+  weekMeditation.innerHTML = `
+    <div class="rit-item-name">Meditación</div>
+    <div class="rit-item-desc">${weekData.meditationCount || 0} de 2 sesiones esta semana</div>
+    <div class="quick-add"><button class="qbtn" id="weekMedBtn">+1 sesión</button></div>
+    ${alertLine(meditationDone, 'tus sesiones de meditación')}
+  `;
+  document.getElementById('weekMedBtn').onclick = async ()=>{
+    weekData.meditationCount = (weekData.meditationCount || 0) + 1;
+    await saveRitualWeek(weekKey, weekData);
+    renderWeeklyOverview(today);
+  };
+}
+
+async function renderDashboard(){
+  const config = await loadConfig();
+  const validConfig = isValidConfig(config) ? config : null;
+
+  const today = new Date();
+  const dateKey = todayStr();
+  const dayData = await loadDay(dateKey);
+  dayData.checks = dayData.checks || {};
+
+  let topSection = '';
+  let info = null, phase = null;
+
+  if(validConfig){
+    info = getCycleInfo(validConfig);
+    phase = PHASES[info.phaseKey];
+    const angle = info.fraction * 360 - 90;
+    const r = 95;
+    const cx = 115, cy = 115;
+    const mx = cx + r * Math.cos(angle * Math.PI/180);
+    const my = cy + r * Math.sin(angle * Math.PI/180);
+    const arcs = arcSegments(cx, cy, r);
+
+    topSection = `
+      <div class="dial-section">
+        <div class="dial-wrap">
+          <svg viewBox="0 0 230 230" width="230" height="230">
+            ${arcs}
+            <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--line)" stroke-width="1"/>
+            <circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="6" fill="${phase.color}" stroke="var(--bg)" stroke-width="2"/>
+          </svg>
+          <div class="dial-center">
+            <div class="moon-glyph">${phase.glyph}</div>
+            <div class="day-number" style="color:${phase.color}">${info.dayInCycle}</div>
+            <div class="day-total">de ${info.cycleLength} días</div>
+          </div>
+        </div>
+        <div class="phase-name">Fase ${phase.label}</div>
+        <div class="phase-energy">${phase.energy}</div>
+        <button class="settings-link" id="openSettings">Ajustar fecha de mi periodo</button>
+      </div>
+
+      <div class="section-title">Hoy equilibras tus 4 elementos</div>
+      <div class="section-sub">${phase.sub}</div>
+      <div class="grid" id="elGrid"></div>
+    `;
+  } else {
+    topSection = `
+      <div class="card">
+        <h2>Sincronicemos tu Daily con tu ciclo</h2>
+        <p class="hint">Cuéntame cuándo empezó tu último periodo y qué tan largo es tu ciclo en promedio. Con eso calculo en qué fase estás hoy y equilibro tus 4 elementos según tu energía disponible. El resto de tu día (abajo) funciona igual sin importar esto.</p>
+        <div class="field">
+          <label for="startInput">Inicio de tu último periodo</label>
+          <input type="date" id="startInput" value="${todayStr()}">
+        </div>
+        <div class="field">
+          <label for="lengthInput">Duración promedio de tu ciclo (días)</label>
+          <input type="number" id="lengthInput" min="20" max="45" value="28">
+        </div>
+        <button class="btn" id="setupBtn">Calcular mi día</button>
+      </div>
+    `;
+  }
+
+  app.innerHTML = `
+    <div class="intention-card" id="intentionCard"></div>
+
+    ${topSection}
+
+    <div class="section-title" style="margin-top:30px;">Todo lo de hoy, en un solo lugar</div>
+    <div class="section-sub">Rituales, nutrición, ejercicio y hogar de hoy — marca aquí y queda guardado también en cada pestaña.</div>
+    <div id="todayAll"></div>
+
+    <div class="section-title" style="margin-top:30px;">Esta semana, para tenerla presente</div>
+    <div class="section-sub" id="weeklyOverviewSub">Lo que no es diario pero igual hay que cumplir antes de que cierre la semana.</div>
+    <div id="weeklyOverview"></div>
+  `;
+
+  document.getElementById('intentionCard').textContent = getDailyIntention(dateKey);
+
+  if(validConfig){
+    const grid = document.getElementById('elGrid');
+    ELEMENTS.forEach(el=>{
+      const pool = phase.pools[el.key];
+      const activity = pool[info.dayInCycle % pool.length];
+      const checked = !!dayData.checks[el.key];
+      const card = document.createElement('div');
+      card.className = 'el-card' + (checked ? ' done' : '');
+      card.style.setProperty('--el-color', phase.color);
+      card.innerHTML = `
+        <div class="el-head" style="color:${phase.color}">
+          ${el.glyph}
+          <div>
+            <div class="el-name" style="color:var(--text)">${el.name}</div>
+            <div class="el-sub">${el.sub}</div>
+          </div>
+        </div>
+        <div class="el-activity">${activity}</div>
+        <label class="check-row">
+          <input type="checkbox" ${checked ? 'checked' : ''} data-el="${el.key}">
+          Hecho hoy
+        </label>
+        ${el.key === 'agua' ? `<textarea placeholder="Escribe aquí tu journaling de hoy…">${escapeHtml(dayData.journal || '')}</textarea>` : ''}
+      `;
+      grid.appendChild(card);
+
+      const checkbox = card.querySelector('input[type=checkbox]');
+      checkbox.onchange = async ()=>{
+        dayData.checks[el.key] = checkbox.checked;
+        card.classList.toggle('done', checkbox.checked);
+        await saveDay(dateKey, dayData);
+      };
+
+      if(el.key === 'agua'){
+        const ta = card.querySelector('textarea');
+        let debounce;
+        ta.oninput = ()=>{
+          clearTimeout(debounce);
+          debounce = setTimeout(async ()=>{
+            dayData.journal = ta.value;
+            await saveDay(dateKey, dayData);
+          }, 600);
+        };
+      }
+    });
+
+    document.getElementById('openSettings').onclick = ()=> openSettingsModal(validConfig);
+  } else {
+    document.getElementById('setupBtn').onclick = async ()=>{
+      const start = document.getElementById('startInput').value;
+      const length = parseInt(document.getElementById('lengthInput').value || '28', 10);
+      if(!start){ showToast('Necesito una fecha de inicio.'); return; }
+      await saveConfig({lastPeriodStart: start, cycleLength: length});
+      renderDashboard();
+    };
+  }
+
+  // El resumen del día siempre se intenta renderizar, tenga o no ciclo configurado
+  try{
+    await renderTodayAll(dateKey, today);
+  }catch(e){
+    const container = document.getElementById('todayAll');
+    if(container) container.innerHTML = `<div class="rit-item-desc">No pude cargar el resumen de hoy. Intenta recargar.</div>`;
+  }
+
+  try{
+    await renderWeeklyOverview(today);
+  }catch(e){
+    const wContainer = document.getElementById('weeklyOverview');
+    if(wContainer) wContainer.innerHTML = `<div class="rit-item-desc">No pude cargar tu semana. Intenta recargar.</div>`;
+  }
+}
+
+function arcSegments(cx, cy, r){
+  // four quadrant arcs colored by phase, starting at top, clockwise
+  const bounds = [0, 0.18, 0.46, 0.57, 1];
+  const keys = ['menstrual','folicular','ovulatoria','lutea'];
+  let svg = '';
+  for(let i=0;i<4;i++){
+    const a0 = bounds[i]*360 - 90;
+    const a1 = bounds[i+1]*360 - 90;
+    svg += describeArc(cx, cy, r, a0, a1, PHASES[keys[i]].color);
+  }
+  return svg;
+}
+function describeArc(cx, cy, r, a0, a1, color){
+  const start = polarToCartesian(cx, cy, r, a1);
+  const end = polarToCartesian(cx, cy, r, a0);
+  const largeArc = (a1 - a0) <= 180 ? 0 : 1;
+  return `<path d="M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}" fill="none" stroke="${color}" stroke-width="7" stroke-linecap="round" opacity="0.85"/>`;
+}
+function polarToCartesian(cx, cy, r, angleDeg){
+  const a = angleDeg * Math.PI / 180;
+  return { x: (cx + r*Math.cos(a)).toFixed(1), y: (cy + r*Math.sin(a)).toFixed(1) };
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function openSettingsModal(config){
+  const overlay = document.getElementById('settingsOverlay');
+  document.getElementById('editStart').value = config.lastPeriodStart;
+  document.getElementById('editLength').value = config.cycleLength;
+  overlay.classList.add('show');
+
+  document.getElementById('cancelSettings').onclick = ()=> overlay.classList.remove('show');
+  document.getElementById('saveSettings').onclick = async ()=>{
+    const start = document.getElementById('editStart').value;
+    const length = parseInt(document.getElementById('editLength').value || '28', 10);
+    if(!start){ showToast('Necesito una fecha.'); return; }
+    await saveConfig({lastPeriodStart: start, cycleLength: length});
+    overlay.classList.remove('show');
+    showToast('Ciclo actualizado.');
+    renderDashboard();
+  };
+}
+
+// ---------- Rituales: render ----------
+async function renderRituales(){
+  const today = new Date();
+  const dateKey = todayStr();
+  const weekKey = getWeekKey(today);
+  const isMonday = today.getDay() === 1;
+
+  const dayData = await loadRitualDay(dateKey);
+  const weekData = await loadRitualWeek(weekKey);
+  weekData.learningMinutes = weekData.learningMinutes || 0;
+  const config = await loadRitualConfig();
+  config.learningGoalHours = config.learningGoalHours || 3;
+
+  const hairToday = HAIR_SCHEDULE[today.getDay()];
+  const laserDue = !config.laserLastDate || diffInDays(new Date(config.laserLastDate + 'T00:00:00'), new Date(today)) >= 4;
+  const laserNextInfo = config.laserLastDate
+    ? (laserDue ? 'Te toca hoy.' : `Próxima sesión en ${4 - diffInDays(new Date(config.laserLastDate + 'T00:00:00'), new Date(today))} día(s).`)
+    : 'Aún no registras tu primera sesión.';
+
+  app.innerHTML = `
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Body</span><span class="rit-tag">cuerpo</span></div>
+      <p class="rit-sub">Skincare, hair care y cuidado físico diario.</p>
+
+      <div class="rit-group-label">Hoy</div>
+      <div id="bodyDaily"></div>
+
+      <div class="rit-group-label">Hair care · esta semana</div>
+      <div class="rit-item">
+        <div class="rit-item-name">${hairToday.label}</div>
+        <div class="rit-item-desc">${hairToday.desc}</div>
+        <div class="week-strip" id="hairStrip"></div>
+      </div>
+
+      <div class="rit-group-label">Semanal</div>
+      <div id="bodyWeekly"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Mind</span><span class="rit-tag">mente</span></div>
+      <p class="rit-sub">Lectura y aprendizaje, los dos con meta de horas semanales.</p>
+
+      <div class="rit-group-label">Semanal</div>
+      <div class="rit-item" id="readingItem"></div>
+      <div class="rit-item" id="learningItem"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Soul</span><span class="rit-tag">alma</span></div>
+      <p class="rit-sub">El resto de tu práctica espiritual vive en Daily — aquí solo tu meditación semanal.</p>
+
+      <div class="rit-group-label">Semanal</div>
+      <div class="rit-item" id="meditationItem"></div>
+    </div>
+  `;
+
+  // ---- Body daily ----
+  const bodyDaily = document.getElementById('bodyDaily');
+  const bodyItems = [
+    {key:'skincareAM', name:'Skincare AM', desc:'Limpiador suave + hidratante + protector solar.'},
+    {key:'skincarePM', name:'Skincare PM', desc:'Limpiador suave + tratamiento + hidratante reparadora.'},
+    {key:'sunscreen', name:'Protector solar', desc:'Esencial mientras tomas isotretinoína: reaplica si sales varias horas.'},
+    {key:'hair', name:`Hair care de hoy: ${hairToday.label}`, desc:hairToday.desc}
+  ];
+  bodyItems.forEach(item => bodyDaily.appendChild(buildDailyItem(item, dayData, dateKey)));
+
+  // Isotretinoína — solo lunes
+  const isoItem = document.createElement('div');
+  isoItem.className = 'rit-item' + (isMonday ? '' : ' muted') + (dayData.isotretinoina ? ' done' : '');
+  isoItem.innerHTML = isMonday
+    ? `<label class="rit-row">
+         <input type="checkbox" id="iso-check" ${dayData.isotretinoina ? 'checked' : ''}>
+         <div><div class="rit-item-name">Isotretinoína</div><div class="rit-item-desc">Hoy es lunes: toma tu dosis.</div></div>
+       </label>`
+    : `<div class="rit-row"><div><div class="rit-item-name">Isotretinoína</div><div class="rit-item-desc">Toca cada lunes. Próxima toma: ${fmtShort(nextMonday(today))}.</div></div></div>`;
+  bodyDaily.appendChild(isoItem);
+  if(isMonday){
+    document.getElementById('iso-check').onchange = async (e)=>{
+      dayData.isotretinoina = e.target.checked;
+      isoItem.classList.toggle('done', e.target.checked);
+      await saveRitualDay(dateKey, dayData);
+    };
+  }
+
+  // hair week strip
+  const hairStrip = document.getElementById('hairStrip');
+  for(let i=0;i<7;i++){
+    const d = new Date(); d.setDate(d.getDate() - ((d.getDay()+6)%7) + i);
+    const isToday = d.toDateString() === today.toDateString();
+    const sched = HAIR_SCHEDULE[d.getDay()];
+    const cell = document.createElement('div');
+    cell.className = 'week-day' + (isToday ? ' today' : '');
+    cell.innerHTML = `<div class="wd-label">${WEEKDAY_SHORT[d.getDay()]}</div><div class="wd-task">${sched.label}</div>`;
+    hairStrip.appendChild(cell);
+  }
+
+  // ---- Body weekly ----
+  const bodyWeekly = document.getElementById('bodyWeekly');
+
+  const nailsItem = document.createElement('div');
+  nailsItem.className = 'rit-item' + (weekData.nails ? ' done' : '');
+  nailsItem.innerHTML = `<label class="rit-row">
+      <input type="checkbox" id="nails-check" ${weekData.nails ? 'checked' : ''}>
+      <div><div class="rit-item-name">Uñas</div><div class="rit-item-desc">Una vez por semana.</div></div>
+    </label>`;
+  bodyWeekly.appendChild(nailsItem);
+  document.getElementById('nails-check').onchange = async (e)=>{
+    weekData.nails = e.target.checked;
+    nailsItem.classList.toggle('done', e.target.checked);
+    await saveRitualWeek(weekKey, weekData);
+  };
+
+  const laserItem = document.createElement('div');
+  laserItem.className = 'rit-item' + (!laserDue ? ' done' : '');
+  laserItem.innerHTML = `
+    <div class="rit-item-name">Láser</div>
+    <div class="rit-item-desc">Cada 4 días, aprox. dos veces por semana. ${laserNextInfo}</div>
+    <div class="quick-add">
+      <button class="qbtn" id="laser-done">Hecho hoy</button>
+    </div>`;
+  bodyWeekly.appendChild(laserItem);
+  document.getElementById('laser-done').onclick = async ()=>{
+    config.laserLastDate = dateKey;
+    await saveRitualConfig(config);
+    showToast('Sesión de láser registrada.');
+    renderRituales();
+  };
+
+  // ---- Reading (weekly, time-based) ----
+  const goalMinutes = config.readingGoalHours * 60;
+  const pct = Math.min(100, Math.round((weekData.readingMinutes / goalMinutes) * 100));
+  const readingItem = document.getElementById('readingItem');
+  readingItem.innerHTML = `
+    <div class="rit-item-name">Lectura
+      <button class="goal-edit" id="editGoal">cambiar meta</button>
+    </div>
+    <div class="rit-item-desc">Meta: ${config.readingGoalHours}h esta semana</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="rit-item-desc">${(weekData.readingMinutes/60).toFixed(1)}h de ${config.readingGoalHours}h</div>
+    <div class="quick-add">
+      <button class="qbtn" data-min="15">+15 min</button>
+      <button class="qbtn" data-min="30">+30 min</button>
+      <button class="qbtn" data-min="60">+60 min</button>
+    </div>
+  `;
+  readingItem.querySelectorAll('.qbtn').forEach(btn=>{
+    btn.onclick = async ()=>{
+      weekData.readingMinutes += parseInt(btn.dataset.min, 10);
+      await saveRitualWeek(weekKey, weekData);
+      renderRituales();
+    };
+  });
+  document.getElementById('editGoal').onclick = async ()=>{
+    const val = prompt('¿Cuántas horas a la semana quieres leer?', config.readingGoalHours);
+    if(val && !isNaN(parseFloat(val))){
+      config.readingGoalHours = parseFloat(val);
+      await saveRitualConfig(config);
+      renderRituales();
+    }
+  };
+
+  // ---- Aprendizaje (weekly, time-based, igual que lectura) ----
+  const learningGoalMinutes = config.learningGoalHours * 60;
+  const learningPct = Math.min(100, Math.round((weekData.learningMinutes / learningGoalMinutes) * 100));
+  const learningItem = document.getElementById('learningItem');
+  learningItem.innerHTML = `
+    <div class="rit-item-name">Aprendizaje
+      <button class="goal-edit" id="editLearningGoal">cambiar meta</button>
+    </div>
+    <div class="rit-item-desc">Meta: ${config.learningGoalHours}h esta semana</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${learningPct}%"></div></div>
+    <div class="rit-item-desc">${(weekData.learningMinutes/60).toFixed(1)}h de ${config.learningGoalHours}h</div>
+    <div class="quick-add">
+      <button class="qbtn" data-min="15">+15 min</button>
+      <button class="qbtn" data-min="30">+30 min</button>
+      <button class="qbtn" data-min="60">+60 min</button>
+    </div>
+  `;
+  learningItem.querySelectorAll('.qbtn').forEach(btn=>{
+    btn.onclick = async ()=>{
+      weekData.learningMinutes += parseInt(btn.dataset.min, 10);
+      await saveRitualWeek(weekKey, weekData);
+      renderRituales();
+    };
+  });
+  document.getElementById('editLearningGoal').onclick = async ()=>{
+    const val = prompt('¿Cuántas horas a la semana quieres dedicar a aprender?', config.learningGoalHours);
+    if(val && !isNaN(parseFloat(val))){
+      config.learningGoalHours = parseFloat(val);
+      await saveRitualConfig(config);
+      renderRituales();
+    }
+  };
+
+  // ---- Meditation (weekly, 2x target) ----
+  const meditationItem = document.getElementById('meditationItem');
+  meditationItem.innerHTML = `
+    <div class="rit-item-name">Meditación</div>
+    <div class="rit-item-desc">${weekData.meditationCount} de 2 sesiones esta semana</div>
+    <div class="quick-add">
+      <button class="qbtn" id="med-add">+1 sesión</button>
+      ${weekData.meditationCount > 0 ? '<button class="qbtn" id="med-remove">-1</button>' : ''}
+    </div>
+  `;
+  document.getElementById('med-add').onclick = async ()=>{
+    weekData.meditationCount += 1;
+    await saveRitualWeek(weekKey, weekData);
+    renderRituales();
+  };
+  const medRemove = document.getElementById('med-remove');
+  if(medRemove) medRemove.onclick = async ()=>{
+    weekData.meditationCount = Math.max(0, weekData.meditationCount - 1);
+    await saveRitualWeek(weekKey, weekData);
+    renderRituales();
+  };
+}
+
+// ---------- Nutrición: render ----------
+let nutriView = 'manana'; // 'manana' | 'hoy'
+let groceryFreqFilter = 'Todos';
+let groceryCheckFilter = 'Todos';
+
+async function renderNutricion(){
+  const today = new Date();
+  const dateKey = todayStr();
+  const dayData = await loadNutriDay(dateKey);
+
+  app.innerHTML = `
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Tu requerimiento diario</span><span class="rit-tag">${NUTRI_TARGETS.objetivo}</span></div>
+      <div class="meal-card">
+        <div class="meal-row"><b>Calorías</b>~${NUTRI_TARGETS.kcal} kcal/día</div>
+        <div class="meal-row" style="color:var(--accent); font-weight:500;"><b style="color:var(--text-muted);">Proteína</b>${NUTRI_TARGETS.protein} g/día — tu prioridad</div>
+        <div class="meal-row"><b>Carbohidratos</b>${NUTRI_TARGETS.carbs} g/día</div>
+        <div class="meal-row"><b>Grasas</b>${NUTRI_TARGETS.fats} g/día</div>
+        <div class="assumption">TMB ${NUTRI_TARGETS.tmb} kcal · gasto total estimado ${NUTRI_TARGETS.get} kcal. El menú de abajo ya está armado con las porciones de tu plan médico para cubrir esto, con énfasis en que la proteína no se quede corta.</div>
+      </div>
+    </div>
+
+    <div class="rit-block">
+      <div class="menu-toggle">
+        <button id="toggle-manana" class="${nutriView==='manana' ? 'active' : ''}">Menú de mañana</button>
+        <button id="toggle-hoy" class="${nutriView==='hoy' ? 'active' : ''}">Menú de hoy</button>
+      </div>
+      <div id="menuArea"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Agua</span><span class="rit-tag">meta: 2000 ml</span></div>
+      <div class="water-row" style="flex-direction:column; align-items:stretch;">
+        <div class="rit-item-desc" id="waterCount">${dayData.water || 0} de ${WATER_GOAL_ML} ml</div>
+        <div class="water-track" id="waterTrack"></div>
+        <div class="quick-add">
+          <button class="qbtn" id="water-add-1">+200 ml</button>
+          <button class="qbtn" id="water-add-2">+500 ml</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Suplementos</span><span class="rit-tag">checklist diario</span></div>
+      <div id="suppArea"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Mercado</span><span class="rit-tag">inventario y frecuencia</span></div>
+      <div class="grocery-total" id="groceryTotal"></div>
+      <div class="assumption">Asumo que un jar de verduras (500 gr) rinde unas 4 porciones de tu ensalada fija. Si el tuyo rinde distinto, ajusta la cantidad.</div>
+      <div class="rit-group-label">Filtrar por frecuencia</div>
+      <div class="menu-toggle" id="freqFilters"></div>
+      <div class="rit-group-label">Filtrar por estado</div>
+      <div class="menu-toggle" id="checkFilters"></div>
+      <ul class="grocery-list" id="groceryInventory" style="margin-top:10px;"></ul>
+    </div>
+  `;
+
+  // ---- Menú ----
+  renderMenuArea();
+  document.getElementById('toggle-manana').onclick = ()=>{ nutriView='manana'; renderNutricion(); };
+  document.getElementById('toggle-hoy').onclick = ()=>{ nutriView='hoy'; renderNutricion(); };
+
+  function renderMenuArea(){
+    const target = new Date();
+    if(nutriView === 'manana') target.setDate(target.getDate() + 1);
+    const menu = WEEK_MENU[target.getDay()];
+    const dayLabel = nutriView === 'manana' ? `Mañana · ${WEEKDAY_FULL[target.getDay()]}` : `Hoy · ${WEEKDAY_FULL[target.getDay()]}`;
+    const salad = getWeeklySalad(target);
+
+    const menuArea = document.getElementById('menuArea');
+    menuArea.innerHTML = `
+      <div class="section-title">${dayLabel}</div>
+      <div class="meal-card">
+        <div class="meal-name">Desayuno</div>
+        <div class="meal-row"><b>Proteína</b>${menu.desayuno.proteina}</div>
+        <div class="meal-row"><b>Carbo</b>${menu.desayuno.carbo}</div>
+        <div class="meal-row"><b>Fruta</b>${menu.desayuno.fruta}</div>
+        <div class="meal-row"><b>Grasa</b>${menu.desayuno.grasa}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Almuerzo</div>
+        <div class="meal-row"><b>Proteína</b>${menu.almuerzo.proteina}</div>
+        <div class="meal-row"><b>Carbo</b>${menu.almuerzo.carbo}</div>
+        <div class="meal-row"><b>Ensalada fija de esta semana</b>${salad}</div>
+        <div class="meal-row"><b>Fibra extra</b>${menu.almuerzo.fibraExtra}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Media mañana <span style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono',monospace; text-transform:uppercase;">tu snack más fuerte</span></div>
+        <div class="meal-row">${menu.mediaManana}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Media tarde <span style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono',monospace; text-transform:uppercase;">más ligero</span></div>
+        <div class="meal-row">${menu.mediaTarde}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Cena</div>
+        <div class="meal-row">${menu.cena}</div>
+      </div>
+      <div class="prep-box"><b>Para preparar antes:</b> ${menu.prep.join(' ')}</div>
+    `;
+  }
+
+  // ---- Agua ----
+  const waterTrack = document.getElementById('waterTrack');
+  function paintWater(ml){
+    waterTrack.innerHTML = '';
+    const segments = Math.round(WATER_GOAL_ML / WATER_STEP_ML);
+    const filledSegments = Math.round(ml / WATER_STEP_ML);
+    for(let i=0;i<segments;i++){
+      const g = document.createElement('div');
+      g.className = 'water-glass' + (i < filledSegments ? ' filled' : '');
+      waterTrack.appendChild(g);
+    }
+    document.getElementById('waterCount').textContent = `${ml} de ${WATER_GOAL_ML} ml`;
+  }
+  paintWater(dayData.water || 0);
+  document.getElementById('water-add-1').onclick = async ()=>{
+    dayData.water = (dayData.water || 0) + WATER_STEP_ML;
+    paintWater(dayData.water);
+    await saveNutriDay(dateKey, dayData);
+  };
+  document.getElementById('water-add-2').onclick = async ()=>{
+    dayData.water = (dayData.water || 0) + 500;
+    paintWater(dayData.water);
+    await saveNutriDay(dateKey, dayData);
+  };
+
+  // ---- Suplementos ----
+  const suppArea = document.getElementById('suppArea');
+  SUPPLEMENTS.forEach(s=>{
+    const checked = !!dayData.supplements[s.key];
+    const row = document.createElement('div');
+    row.className = 'supp-row' + (checked ? ' done' : '');
+    row.innerHTML = `<input type="checkbox" ${checked ? 'checked' : ''}>
+      <div><div class="rit-item-name">${s.name}</div><div class="rit-item-desc">${s.moment}</div></div>`;
+    suppArea.appendChild(row);
+    row.querySelector('input').onchange = async (e)=>{
+      dayData.supplements[s.key] = e.target.checked;
+      row.classList.toggle('done', e.target.checked);
+      await saveNutriDay(dateKey, dayData);
+    };
+  });
+
+  // ---- Mercado: inventario con frecuencia, checkbox y filtros ----
+  const groceryHave = await loadGroceryHave();
+
+  const freqFilters = document.getElementById('freqFilters');
+  ['Todos','Semanal','Quincenal','Mensual'].forEach(f=>{
+    const btn = document.createElement('button');
+    btn.textContent = f;
+    btn.className = groceryFreqFilter === f ? 'active' : '';
+    btn.onclick = ()=>{ groceryFreqFilter = f; renderNutricion(); };
+    freqFilters.appendChild(btn);
+  });
+
+  const checkFilters = document.getElementById('checkFilters');
+  ['Todos','Falta comprar','Ya tengo'].forEach(f=>{
+    const btn = document.createElement('button');
+    btn.textContent = f;
+    btn.className = groceryCheckFilter === f ? 'active' : '';
+    btn.onclick = ()=>{ groceryCheckFilter = f; renderNutricion(); };
+    checkFilters.appendChild(btn);
+  });
+
+  const groceryInventory = document.getElementById('groceryInventory');
+  let total = 0;
+  const freqOrder = {'Semanal':0, 'Quincenal':1, 'Mensual':2};
+  let list = [...GROCERY_INVENTORY].sort((a,b)=> freqOrder[a.freq] - freqOrder[b.freq]);
+
+  if(groceryFreqFilter !== 'Todos') list = list.filter(g=> g.freq === groceryFreqFilter);
+  if(groceryCheckFilter === 'Falta comprar') list = list.filter(g=> !groceryHave[g.name]);
+  if(groceryCheckFilter === 'Ya tengo') list = list.filter(g=> groceryHave[g.name]);
+
+  list.forEach(g=>{
+    const have = !!groceryHave[g.name];
+    if(g.cost) total += g.cost;
+    const li = document.createElement('li');
+    li.innerHTML = `<label class="rit-row" style="flex:1; align-items:center;">
+        <input type="checkbox" ${have ? 'checked' : ''}>
+        <span class="gname" style="${have ? 'text-decoration:line-through; opacity:0.5;' : ''}"><span class="rit-tag" style="margin-right:8px;">${g.freq}</span>${g.name} — ${g.qty}</span>
+      </label>
+      ${g.cost ? `<span class="gprice">$${g.cost.toLocaleString('es-CO')}</span>` : ''}`;
+    li.querySelector('input').onchange = async (e)=>{
+      groceryHave[g.name] = e.target.checked;
+      await saveGroceryHave(groceryHave);
+      renderNutricion();
+    };
+    groceryInventory.appendChild(li);
+  });
+
+  document.getElementById('groceryTotal').textContent = `Total estimado de pollo + salmón + verduras según filtro actual: $${total.toLocaleString('es-CO')}`;
+}
+
+// ---------- Ejercicio: render ----------
+async function renderEjercicio(){
+  const today = new Date();
+  const dow = today.getDay();
+  const config = await loadConfig();
+
+  let phaseAlert = '';
+  if(isValidConfig(config)){
+    const info = getCycleInfo(config);
+    if(info.phaseKey === 'menstrual'){
+      phaseAlert = `
+        <div class="phase-alert">
+          <b>Estás en fase menstrual.</b> Baja todos los pesos un 30% aprox. y las series de fuerza a la mitad. Sube el cardio a 5 veces por semana, 30 minutos mínimo. Si el sangrado es abundante hoy, no entrenes fuerza — solo cardio suave si quieres, o descansa por completo.
+        </div>`;
+    }
+  }
+
+  const todayEx = WEEKDAY_EXERCISE[dow];
+  let todayBody = '';
+  if(todayEx.type === 'pesas'){
+    todayBody = `
+      <div class="ex-label">Pesas</div>
+      <div class="ex-title">${GYM_DAY_GLUTEO.title}</div>
+      <ul class="ex-list">${GYM_DAY_GLUTEO.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+    `;
+  } else if(todayEx.items){
+    todayBody = `
+      <div class="ex-label">${todayEx.type === 'fijo' ? 'Día fijo' : 'Boost del día'}</div>
+      <div class="ex-title">${todayEx.title}</div>
+      <ul class="ex-list">${todayEx.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+      ${todayEx.why ? `<div class="prep-box"><b>Por qué:</b> ${todayEx.why}</div>` : ''}
+    `;
+  } else {
+    todayBody = `
+      <div class="ex-label">${todayEx.type === 'fijo' ? 'Día fijo' : 'Boost del día'}</div>
+      <div class="ex-title">${todayEx.title}</div>
+      <div class="rit-item-desc" style="margin-bottom:8px;">${todayEx.detail}</div>
+      ${todayEx.why ? `<div class="prep-box"><b>Por qué:</b> ${todayEx.why}</div>` : ''}
+    `;
+  }
+
+  app.innerHTML = `
+    ${phaseAlert}
+    <div class="today-exercise">${todayBody}</div>
+
+    <div class="section-title">Tu semana</div>
+    <div class="section-sub">Lunes y miércoles fijos, sábado siempre es glúteo, el resto son 20 min de pilates repartidos por grupo muscular en lo que el sábado no cubre.</div>
+    <div id="weekExList"></div>
+  `;
+
+  const weekList = document.getElementById('weekExList');
+  for(let i=1;i<=7;i++){
+    const d = new Date(today);
+    d.setDate(today.getDate() - dow + (i % 7)); // lunes(1)...domingo(0/7)
+    const dayIndex = d.getDay();
+    const ex = WEEKDAY_EXERCISE[dayIndex];
+    const isToday = dayIndex === dow;
+    const label = ex.type === 'pesas' ? GYM_DAY_GLUTEO.title : ex.title;
+    const row = document.createElement('div');
+    row.className = 'week-ex-row' + (isToday ? ' today-row' : '');
+    row.innerHTML = `<span class="wd">${WEEKDAY_SHORT[dayIndex]}</span><span>${label}</span>`;
+    weekList.appendChild(row);
+  }
+}
+
+function buildDailyItem(item, dayData, dateKey){
+  const checked = !!dayData[item.key];
+  const el = document.createElement('div');
+  el.className = 'rit-item' + (checked ? ' done' : '');
+  el.innerHTML = `<label class="rit-row">
+      <input type="checkbox" ${checked ? 'checked' : ''}>
+      <div><div class="rit-item-name">${item.name}</div><div class="rit-item-desc">${item.desc}</div></div>
+    </label>`;
+  el.querySelector('input').onchange = async (e)=>{
+    dayData[item.key] = e.target.checked;
+    el.classList.toggle('done', e.target.checked);
+    await saveRitualDay(dateKey, dayData);
+  };
+  return el;
+}
+
+// ---------- Daily: resumen agregado del resto de secciones ----------
+async function renderTodayAll(dateKey, today){
+  const container = document.getElementById('todayAll');
+  if(!container) return;
+
+  const dow = today.getDay();
+  const isMonday = dow === 1;
+  const ritualDay = await loadRitualDay(dateKey);
+  const nutriDay = await loadNutriDay(dateKey);
+  nutriDay.supplements = nutriDay.supplements || {};
+  nutriDay.water = nutriDay.water || 0;
+  const hogarDay = await loadHogarDay(dateKey);
+  const exerciseDay = await loadExerciseDay(dateKey);
+  const hairToday = HAIR_SCHEDULE[dow];
+  const todayEx = WEEKDAY_EXERCISE[dow];
+  const exerciseTitle = todayEx.type === 'pesas' ? GYM_DAY_GLUTEO.title : todayEx.title;
+  const menu = WEEK_MENU[dow];
+  const todaySalad = getWeeklySalad(today);
+  const hogarTasks = getHogarTasks(today);
+  const learningDay = await loadLearningDay(dateKey);
+  const learningExtra = LEARNING_WEEKDAY_EXTRA[dow];
+
+  container.innerHTML = `
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Rituales</span></div>
+      <div id="todayBody"></div>
+    </div>
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Nutrición</span></div>
+      <div class="meal-card">
+        <div class="meal-name">Desayuno</div>
+        <div class="meal-row"><b>Proteína</b>${menu.desayuno.proteina}</div>
+        <div class="meal-row"><b>Carbo</b>${menu.desayuno.carbo}</div>
+        <div class="meal-row"><b>Fruta</b>${menu.desayuno.fruta}</div>
+        <div class="meal-row"><b>Grasa</b>${menu.desayuno.grasa}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Almuerzo</div>
+        <div class="meal-row"><b>Proteína</b>${menu.almuerzo.proteina}</div>
+        <div class="meal-row"><b>Carbo</b>${menu.almuerzo.carbo}</div>
+        <div class="meal-row"><b>Ensalada de la semana</b>${todaySalad}</div>
+        <div class="meal-row"><b>Fibra extra</b>${menu.almuerzo.fibraExtra}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Media mañana</div>
+        <div class="meal-row">${menu.mediaManana}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Media tarde</div>
+        <div class="meal-row">${menu.mediaTarde}</div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-name">Cena</div>
+        <div class="meal-row">${menu.cena}</div>
+      </div>
+      <div id="todaySupp"></div>
+      <div class="rit-item" style="display:flex; justify-content:space-between; align-items:center;">
+        <span class="rit-item-desc" id="todayWaterDesc">Agua: ${nutriDay.water || 0} de ${WATER_GOAL_ML} ml</span>
+        <button class="qbtn" id="today-water-add">+200 ml</button>
+      </div>
+    </div>
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Ejercicio</span></div>
+      <div id="todayExercise"></div>
+    </div>
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Hogar</span></div>
+      <div id="todayHogar"></div>
+    </div>
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Learning</span></div>
+      <div id="todayLearning"></div>
+    </div>
+  `;
+
+  // ---- Rituales (Body) ----
+  const todayBody = document.getElementById('todayBody');
+  const bodyItems = [
+    {key:'skincareAM', name:'Skincare AM'},
+    {key:'skincarePM', name:'Skincare PM'},
+    {key:'sunscreen', name:'Protector solar'},
+    {key:'hair', name:`Hair care: ${hairToday.label}`}
+  ];
+  bodyItems.forEach(item=>{
+    const checked = !!ritualDay[item.key];
+    const el = document.createElement('div');
+    el.className = 'rit-item' + (checked ? ' done' : '');
+    el.innerHTML = `<label class="rit-row"><input type="checkbox" ${checked ? 'checked' : ''}><div class="rit-item-name">${item.name}</div></label>`;
+    el.querySelector('input').onchange = async (e)=>{
+      ritualDay[item.key] = e.target.checked;
+      el.classList.toggle('done', e.target.checked);
+      await saveRitualDay(dateKey, ritualDay);
+    };
+    todayBody.appendChild(el);
+  });
+  if(isMonday){
+    const checked = !!ritualDay.isotretinoina;
+    const el = document.createElement('div');
+    el.className = 'rit-item' + (checked ? ' done' : '');
+    el.innerHTML = `<label class="rit-row"><input type="checkbox" ${checked ? 'checked' : ''}><div class="rit-item-name">Isotretinoína (hoy es lunes)</div></label>`;
+    el.querySelector('input').onchange = async (e)=>{
+      ritualDay.isotretinoina = e.target.checked;
+      el.classList.toggle('done', e.target.checked);
+      await saveRitualDay(dateKey, ritualDay);
+    };
+    todayBody.appendChild(el);
+  }
+
+  // ---- Nutrición: suplementos + agua ----
+  const todaySupp = document.getElementById('todaySupp');
+  SUPPLEMENTS.forEach(s=>{
+    const checked = !!nutriDay.supplements[s.key];
+    const row = document.createElement('div');
+    row.className = 'supp-row' + (checked ? ' done' : '');
+    row.innerHTML = `<input type="checkbox" ${checked ? 'checked' : ''}><div><div class="rit-item-name">${s.name}</div><div class="rit-item-desc">${s.moment}</div></div>`;
+    row.querySelector('input').onchange = async (e)=>{
+      nutriDay.supplements[s.key] = e.target.checked;
+      row.classList.toggle('done', e.target.checked);
+      await saveNutriDay(dateKey, nutriDay);
+    };
+    todaySupp.appendChild(row);
+  });
+  document.getElementById('today-water-add').onclick = async ()=>{
+    nutriDay.water = (nutriDay.water || 0) + WATER_STEP_ML;
+    document.getElementById('todayWaterDesc').textContent = `Agua: ${nutriDay.water} de ${WATER_GOAL_ML} ml`;
+    await saveNutriDay(dateKey, nutriDay);
+  };
+
+  // ---- Ejercicio ----
+  const todayExercise = document.getElementById('todayExercise');
+  const exChecked = !!exerciseDay.done;
+  const exEl = document.createElement('div');
+  exEl.className = 'rit-item' + (exChecked ? ' done' : '');
+  exEl.innerHTML = `<label class="rit-row"><input type="checkbox" ${exChecked ? 'checked' : ''}><div class="rit-item-name">${exerciseTitle}</div></label>`;
+  exEl.querySelector('input').onchange = async (e)=>{
+    exerciseDay.done = e.target.checked;
+    exEl.classList.toggle('done', e.target.checked);
+    await saveExerciseDay(dateKey, exerciseDay);
+  };
+  todayExercise.appendChild(exEl);
+
+  // ---- Hogar ----
+  const todayHogar = document.getElementById('todayHogar');
+  hogarTasks.forEach(task=>{
+    const storeKey = task.key + '::' + task.name;
+    const checked = !!hogarDay[storeKey];
+    const el = document.createElement('div');
+    el.className = 'rit-item' + (checked ? ' done' : '');
+    el.innerHTML = `<label class="rit-row"><input type="checkbox" ${checked ? 'checked' : ''}><div class="rit-item-name">${task.name}</div></label>`;
+    el.querySelector('input').onchange = async (e)=>{
+      hogarDay[storeKey] = e.target.checked;
+      el.classList.toggle('done', e.target.checked);
+      await saveHogarDay(dateKey, hogarDay);
+    };
+    todayHogar.appendChild(el);
+  });
+
+  // ---- Learning ----
+  const todayLearning = document.getElementById('todayLearning');
+  const habitChecked = !!learningDay.habit;
+  const habitEl = document.createElement('div');
+  habitEl.className = 'rit-item' + (habitChecked ? ' done' : '');
+  habitEl.innerHTML = `<label class="rit-row"><input type="checkbox" ${habitChecked ? 'checked' : ''}><div class="rit-item-name">${LEARNING_DAILY_HABIT.title}</div></label>`;
+  habitEl.querySelector('input').onchange = async (e)=>{
+    learningDay.habit = e.target.checked;
+    habitEl.classList.toggle('done', e.target.checked);
+    await saveLearningDay(dateKey, learningDay);
+  };
+  todayLearning.appendChild(habitEl);
+
+  if(learningExtra){
+    const extraChecked = !!learningDay.extra;
+    const extraEl = document.createElement('div');
+    extraEl.className = 'rit-item' + (extraChecked ? ' done' : '');
+    extraEl.innerHTML = `<label class="rit-row"><input type="checkbox" ${extraChecked ? 'checked' : ''}><div class="rit-item-name">${learningExtra.title}</div></label>`;
+    extraEl.querySelector('input').onchange = async (e)=>{
+      learningDay.extra = e.target.checked;
+      extraEl.classList.toggle('done', e.target.checked);
+      await saveLearningDay(dateKey, learningDay);
+    };
+    todayLearning.appendChild(extraEl);
+  }
+}
+
+// ---------- Hogar: render ----------
+async function renderHogar(){
+  const today = new Date();
+  const dow = today.getDay();
+  const dateKey = todayStr();
+  const dayData = await loadHogarDay(dateKey);
+  const todayTasks = getHogarTasks(today);
+
+  app.innerHTML = `
+    <div class="section-title">Hoy · ${WEEKDAY_FULL[dow]}</div>
+    <div class="section-sub">Pensado para que no te tome mucho tiempo: piso cada dos días, riego según lo que cada planta realmente necesita, y el resto repartido en la semana.</div>
+    <div id="hogarToday"></div>
+
+    <div class="rit-block" style="margin-top:28px;">
+      <div class="rit-head"><span class="rit-title">Tu semana completa</span></div>
+      <div id="hogarWeek"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Cuidado de tus plantas</span><span class="rit-tag">referencia</span></div>
+      <div id="plantCare"></div>
+    </div>
+  `;
+
+  const hogarToday = document.getElementById('hogarToday');
+  todayTasks.forEach(task=>{
+    // usamos nombre+key porque el texto del riego cambia según el día
+    const storeKey = task.key + '::' + task.name;
+    const isChecked = !!dayData[storeKey];
+    const el = document.createElement('div');
+    el.className = 'rit-item' + (isChecked ? ' done' : '');
+    el.innerHTML = `<label class="rit-row">
+        <input type="checkbox" ${isChecked ? 'checked' : ''}>
+        <div><div class="rit-item-name">${task.name}</div>${task.desc ? `<div class="rit-item-desc">${task.desc}</div>` : ''}</div>
+      </label>`;
+    el.querySelector('input').onchange = async (e)=>{
+      dayData[storeKey] = e.target.checked;
+      el.classList.toggle('done', e.target.checked);
+      await saveHogarDay(dateKey, dayData);
+    };
+    hogarToday.appendChild(el);
+  });
+
+  const hogarWeek = document.getElementById('hogarWeek');
+  for(let i=1;i<=7;i++){
+    const d = new Date(today);
+    d.setDate(today.getDate() - dow + (i % 7));
+    const dayIndex = d.getDay();
+    const isToday = dayIndex === dow;
+    const tasks = getHogarTasks(d);
+    const row = document.createElement('div');
+    row.className = 'week-ex-row' + (isToday ? ' today-row' : '');
+    row.style.alignItems = 'flex-start';
+    row.innerHTML = `<span class="wd">${WEEKDAY_SHORT[dayIndex]}</span><span>${tasks.map(t=>t.name).join(' · ')}</span>`;
+    hogarWeek.appendChild(row);
+  }
+
+  const plantCare = document.getElementById('plantCare');
+  PLANT_CARE.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'plant-card';
+    card.innerHTML = `
+      <div class="plant-name">${p.name}</div>
+      <div class="plant-water">Riego: ${p.water}</div>
+      <div class="plant-desc">${p.care}</div>
+    `;
+    plantCare.appendChild(card);
+  });
+}
+
+// ---------- Learning: render ----------
+async function renderLearning(){
+  const today = new Date();
+  const dow = today.getDay();
+  const dateKey = todayStr();
+  const dayData = await loadLearningDay(dateKey);
+  const extra = LEARNING_WEEKDAY_EXTRA[dow];
+
+  app.innerHTML = `
+    <div class="section-title">Hoy</div>
+    <div id="learningToday"></div>
+
+    <div class="rit-block" style="margin-top:28px;">
+      <div class="rit-head"><span class="rit-title">Tu semana</span></div>
+      <div class="section-sub">Todos los días llevan el hábito de shadowing + repaso. Martes y jueves alternan casual/business, domingo es contenido largo.</div>
+      <div id="learningWeek"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Track casual</span></div>
+      <div class="meal-card">
+        <div class="meal-row"><b>Meta</b>${TRACK_CASUAL.goal}</div>
+      </div>
+      <div class="rit-group-label">Recursos</div>
+      <div id="casualResources"></div>
+      <div class="rit-group-label">Chunks para tu banco</div>
+      <div>${TRACK_CASUAL.chunks.map(c=>`<span class="chunk-chip">${c}</span>`).join('')}</div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Track business · data &amp; marketing</span></div>
+      <div class="meal-card">
+        <div class="meal-row"><b>Meta</b>${TRACK_BUSINESS.goal}</div>
+      </div>
+      <div class="rit-group-label">Recursos</div>
+      <div id="businessResources"></div>
+      <div class="rit-group-label">Chunks para tu banco</div>
+      <div>${TRACK_BUSINESS.chunks.map(c=>`<span class="chunk-chip">${c}</span>`).join('')}</div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Tu ruta</span><span class="rit-tag">B2+ → pro</span></div>
+      <div id="learningRoadmap"></div>
+    </div>
+
+    <div class="rit-block">
+      <div class="rit-head"><span class="rit-title">Por qué funciona</span><span class="rit-tag">neurociencia</span></div>
+      <div id="learningPrinciples"></div>
+    </div>
+  `;
+
+  // ---- Hoy ----
+  const learningToday = document.getElementById('learningToday');
+  const habitChecked = !!dayData.habit;
+  const habitEl = document.createElement('div');
+  habitEl.className = 'rit-item' + (habitChecked ? ' done' : '');
+  habitEl.innerHTML = `<label class="rit-row">
+      <input type="checkbox" ${habitChecked ? 'checked' : ''}>
+      <div><div class="rit-item-name">${LEARNING_DAILY_HABIT.title}</div><div class="rit-item-desc">${LEARNING_DAILY_HABIT.detail}</div></div>
+    </label>`;
+  habitEl.querySelector('input').onchange = async (e)=>{
+    dayData.habit = e.target.checked;
+    habitEl.classList.toggle('done', e.target.checked);
+    await saveLearningDay(dateKey, dayData);
+  };
+  learningToday.appendChild(habitEl);
+
+  if(extra){
+    const extraChecked = !!dayData.extra;
+    const extraEl = document.createElement('div');
+    extraEl.className = 'rit-item' + (extraChecked ? ' done' : '');
+    extraEl.innerHTML = `<label class="rit-row">
+        <input type="checkbox" ${extraChecked ? 'checked' : ''}>
+        <div><div class="rit-item-name">${extra.title}</div><div class="rit-item-desc">${extra.detail}</div></div>
+      </label>`;
+    extraEl.querySelector('input').onchange = async (e)=>{
+      dayData.extra = e.target.checked;
+      extraEl.classList.toggle('done', e.target.checked);
+      await saveLearningDay(dateKey, dayData);
+    };
+    learningToday.appendChild(extraEl);
+  }
+
+  // ---- Semana ----
+  const learningWeek = document.getElementById('learningWeek');
+  for(let i=1;i<=7;i++){
+    const d = new Date(today);
+    d.setDate(today.getDate() - dow + (i % 7));
+    const dayIndex = d.getDay();
+    const isToday = dayIndex === dow;
+    const dayExtra = LEARNING_WEEKDAY_EXTRA[dayIndex];
+    const label = dayExtra ? `Shadowing + repaso · ${dayExtra.title}` : 'Shadowing + repaso';
+    const row = document.createElement('div');
+    row.className = 'week-ex-row' + (isToday ? ' today-row' : '');
+    row.innerHTML = `<span class="wd">${WEEKDAY_SHORT[dayIndex]}</span><span>${label}</span>`;
+    learningWeek.appendChild(row);
+  }
+
+  // ---- Recursos ----
+  const casualResources = document.getElementById('casualResources');
+  TRACK_CASUAL.resources.forEach(r=>{
+    const div = document.createElement('div');
+    div.className = 'rit-item-desc';
+    div.style.marginBottom = '8px';
+    div.textContent = r;
+    casualResources.appendChild(div);
+  });
+  const businessResources = document.getElementById('businessResources');
+  TRACK_BUSINESS.resources.forEach(r=>{
+    const div = document.createElement('div');
+    div.className = 'rit-item-desc';
+    div.style.marginBottom = '8px';
+    div.textContent = r;
+    businessResources.appendChild(div);
+  });
+
+  // ---- Roadmap ----
+  const learningRoadmap = document.getElementById('learningRoadmap');
+  LEARNING_ROADMAP.forEach(s=>{
+    const card = document.createElement('div');
+    card.className = 'stage-card';
+    card.innerHTML = `<div class="stage-title">${s.stage}</div><div class="plant-desc">${s.detail}</div>`;
+    learningRoadmap.appendChild(card);
+  });
+
+  // ---- Principios ----
+  const learningPrinciples = document.getElementById('learningPrinciples');
+  LEARNING_PRINCIPLES.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'plant-card';
+    card.innerHTML = `<div class="plant-name">${p.name}</div><div class="plant-desc">${p.desc}</div>`;
+    learningPrinciples.appendChild(card);
+  });
+}
+
+// ---------- Tabs ----------
+function setActiveTab(id){
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(id);
+  if(btn) btn.classList.add('active');
+}
+
+document.getElementById('tab-daily').onclick = ()=>{ setActiveTab('tab-daily'); renderDashboard(); };
+document.getElementById('tab-rituales').onclick = ()=>{ setActiveTab('tab-rituales'); renderRituales(); };
+document.getElementById('tab-nutricion').onclick = ()=>{ setActiveTab('tab-nutricion'); renderNutricion(); };
+document.getElementById('tab-ejercicio').onclick = ()=>{ setActiveTab('tab-ejercicio'); renderEjercicio(); };
+document.getElementById('tab-hogar').onclick = ()=>{ setActiveTab('tab-hogar'); renderHogar(); };
+document.getElementById('tab-learning').onclick = ()=>{ setActiveTab('tab-learning'); renderLearning(); };
+
+renderDashboard();
+
+</script>
+</body>
+</html>
